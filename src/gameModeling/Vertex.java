@@ -4,7 +4,7 @@ public class Vertex {
     private int troops;
 
     public Vertex() {
-        this.troops = 0;
+        this.troops = 1;
     }
 
     public int getTroops() {

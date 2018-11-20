@@ -7,15 +7,25 @@ import java.util.HashSet;
 
 public class Graph {
     public ArrayList<Integer>[] adjacencyList;
-    public HashMap<Integer, Integer> nodeAndOwner;
-    public HashMap<Integer, HashSet<Integer>> continents;
-    private int numberOfVertices;
+    private int[] nodeAndOwner;
+    private ArrayList<Integer> continentsNumbers;
+    private HashMap<Integer, ArrayList<Integer>> continents;
+    private Vertex[] vertices;
+//    private int numberOfVertices;
 
     public Graph(int numberOfVertices) {
-        this.numberOfVertices = numberOfVertices;
+//        this.numberOfVertices = numberOfVertices;
         this.adjacencyList = new ArrayList[numberOfVertices + 1];
-        this.nodeAndOwner = new HashMap<>();
+        this.nodeAndOwner = new int[numberOfVertices + 1];
         this.continents = new HashMap<>();
+        this.vertices = new Vertex[numberOfVertices + 1];
+        this.initializeVerticesArray();
+    }
+
+    private void initializeVerticesArray() {
+        for (int i = 1; i < vertices.length; i++) {
+            vertices[i] = new Vertex();
+        }
     }
 
     public void buildGraph(ArrayList<Point> edges) {
@@ -25,7 +35,8 @@ public class Graph {
         }
     }
 
-    public void addToContinent(ArrayList<ArrayList<Integer>> lines) {
+    public void buildContinents(ArrayList<ArrayList<Integer>> lines) {
+        this.continentsNumbers = new ArrayList<>();
         for (ArrayList arrayList : lines) {
             this.addContinent(arrayList);
         }
@@ -33,11 +44,46 @@ public class Graph {
 
     private void addContinent(ArrayList<Integer> line) {
         int continentNumber = line.get(0);
-        this.continents.put(continentNumber, new HashSet<>());
-
+        this.continentsNumbers.add(continentNumber);
+        this.continents.put(continentNumber, new ArrayList<>());
         for (int i = 1; i < line.size(); i++) {
             this.continents.get(continentNumber).add(line.get(i));
         }
     }
+
+
+    public void assignOwners() {
+        for (int i = 1; i < this.nodeAndOwner.length; i++) {
+            if (i % 2 == 0) {
+                this.nodeAndOwner[i] = 0;
+            } else {
+                this.nodeAndOwner[i] = 1;
+            }
+        }
+    }
+
+
+    public ArrayList<Point> ownedContinents(int playerNumber) {
+        ArrayList<Point> ownedContinents = new ArrayList<>();
+
+        for (int i = 0; i < continentsNumbers.size(); i++) {
+            int currentContinentNumber = this.continentsNumbers.get(i);
+            int ownedCountriesCount = 0;
+
+            ArrayList<Integer> countries = this.continents.get(currentContinentNumber);
+            for (int j = 0; j < countries.size(); j++) {
+                if (this.nodeAndOwner[countries.get(j)] != playerNumber)
+                    break;
+                ownedCountriesCount++;
+            }
+
+            if (countries.size() == ownedCountriesCount)
+                ownedContinents.add(new Point(currentContinentNumber, ownedCountriesCount));
+        }
+        return ownedContinents;
+    }
+
+    
+
 
 }

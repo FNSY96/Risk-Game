@@ -1,24 +1,30 @@
 package gameModeling;
 
 public class Player {
-    int playerNumber;
     private int availableTroops;
-    private boolean ownsContinent;
+//    private boolean ownsContinent;
 
-    public Player(int playerNumber) {
-        this.playerNumber = playerNumber;
-        this.ownsContinent = false;
+    public Player() {
+//        this.ownsContinent = false;
+    }
+
+    public void setAvailableTroops(int troops) {
+        this.availableTroops = troops;
     }
 
     public void addTroops(int newTroops) {
         this.availableTroops += newTroops;
     }
 
+    public int getAvailableTroops() {
+        return this.availableTroops;
+    }
+
     public void removeTroops() {
         this.availableTroops = 0;
     }
 
-    public void setOwnsContinent(boolean ownsContinent) {
-        this.ownsContinent = ownsContinent;
-    }
+//    public void setOwnsContinent(boolean ownsContinent) {
+//        this.ownsContinent = ownsContinent;
+//    }
 }

@@ -17,11 +17,16 @@ public class InputFileReader {
         ArrayList<ArrayList<Integer>> continents = new ArrayList<>();
 
         BufferedReader reader;
+        int numberOfVertices = 0;
+
         try {
             reader = new BufferedReader(new FileReader("input.txt"));
             String line = reader.readLine();
             while (line != null) {
-                if (lineNum == 1) {
+                line = line.toUpperCase();
+                if (lineNum == 0) {
+                    numberOfVertices = getNumOfVertices(line);
+                } else if (lineNum == 1) {
                     getNumOfEdges(line);
                 } else if (lineNum > 1 && lineNum <= (this.numOfEdges + 1)) {
                     extractEdge(line, edges);
@@ -38,7 +43,11 @@ public class InputFileReader {
             e.printStackTrace();
         }
 
-        return new FileReturns(edges, continents);
+        return new FileReturns(edges, continents, numberOfVertices);
+    }
+
+    private int getNumOfVertices(String line) {
+        return Integer.valueOf(line.replace("V ", ""));
     }
 
     private void getNumOfContinents(String line) {
@@ -70,10 +79,4 @@ public class InputFileReader {
     private int convertCharToInt(String line, int index) {
         return (int) line.charAt(index) - 48;
     }
-
-    public static void main(String[] args) {
-        InputFileReader in = new InputFileReader();
-        in.readFile();
-    }
-
 }
