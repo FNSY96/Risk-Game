@@ -45,37 +45,34 @@ public class Game {
             this.players[playerNumber].addTroops(ownedContinents.get(i).y);
         }
     }
-    
-    public boolean deployTroops(int playerNumber, int vertexNumber)
-    {
-    	if(playerNumber == graph.getOwner(vertexNumber))
-    	{
-    		int currentTroopsInVertex = graph.getTroopsInVertex(vertexNumber);
-    		int playerCurrentTroops = players[playerNumber].getAvailableTroops();
-    		players[playerNumber].setAvailableTroops(0); ;
-    		graph.setNumberOfTroopsInVertex(vertexNumber, playerCurrentTroops + currentTroopsInVertex);
-    		return true;
-    	}
-    	return false;
+
+    public boolean deployTroops(int playerNumber, int vertexNumber) {
+        if (playerNumber == graph.getOwner(vertexNumber)) {
+            int currentTroopsInVertex = graph.getTroopsInVertex(vertexNumber);
+            int playerCurrentTroops = players[playerNumber].getAvailableTroops();
+            players[playerNumber].setAvailableTroops(0);
+            ;
+            graph.setNumberOfTroopsInVertex(vertexNumber, playerCurrentTroops + currentTroopsInVertex);
+            return true;
+        }
+        return false;
     }
 
-    public boolean attack(int attackerVertex,int defenderVertex)
-    {	//don't change the lines order in this function
-    	int remainingArmy = checkAttackingConditions(graph.getTroopsInVertex(attackerVertex),graph.getTroopsInVertex(defenderVertex));
-    	if(graph.isNeighbour(attackerVertex, defenderVertex)&& graph.getOwner(attackerVertex) != graph.getOwner(defenderVertex) && remainingArmy > 1)
-    	{
-    		graph.setNumberOfTroopsInVertex(attackerVertex, remainingArmy -1);
-    		graph.setNumberOfTroopsInVertex(defenderVertex, 1);
-    		this.players[graph.getOwner(attackerVertex)].incrementNumberOfOwnedVertices();
-    		this.players[graph.getOwner(defenderVertex)].decrementNumberOfOwnedVertices();
-    		this.alternateOwner(defenderVertex);
-    		this.players[graph.getOwner(attackerVertex)].setAvailableTroops(ATTACK_BONUS);    //set may need to be removed and addtroops should be added
-    		return true;
-    	}
-    	
-    return false;	
+    public boolean attack(int attackerVertex, int defenderVertex) {    //don't change the lines order in this function
+        int remainingArmy = checkAttackingConditions(graph.getTroopsInVertex(attackerVertex), graph.getTroopsInVertex(defenderVertex));
+        if (graph.isNeighbour(attackerVertex, defenderVertex) && graph.getOwner(attackerVertex) != graph.getOwner(defenderVertex) && remainingArmy > 1) {
+            graph.setNumberOfTroopsInVertex(attackerVertex, remainingArmy - 1);
+            graph.setNumberOfTroopsInVertex(defenderVertex, 1);
+            this.players[graph.getOwner(attackerVertex)].incrementNumberOfOwnedVertices();
+            this.players[graph.getOwner(defenderVertex)].decrementNumberOfOwnedVertices();
+            this.alternateOwner(defenderVertex);
+            this.players[graph.getOwner(attackerVertex)].setAvailableTroops(ATTACK_BONUS);    //set may need to be removed and add troops should be added
+            return true;
+        }
+
+        return false;
     }
-    
+
 
     public Graph getGraph() {
         return this.graph;
@@ -85,9 +82,8 @@ public class Game {
         return this.players;
     }
 
-    private int checkAttackingConditions(int attackerArmy,int defenderArmy)
-    {
-    	return (attackerArmy - defenderArmy);
+    private int checkAttackingConditions(int attackerArmy, int defenderArmy) {
+        return (attackerArmy - defenderArmy);
     }
 
     private void assignOwners(int arrayLength) {
@@ -101,15 +97,16 @@ public class Game {
             }
         }
     }
-    
-	private void alternateOwner(int vertexNumber)
-	{
-		if(graph.getOwner(vertexNumber) == 0)
-		{
-			graph.setNodeOwner(vertexNumber, 1);
-		}else
-		{
-			graph.setNodeOwner(vertexNumber, 0);
-		}
-	}
+
+    private void alternateOwner(int vertexNumber) {
+        if (graph.getOwner(vertexNumber) == 0) {
+            graph.setNodeOwner(vertexNumber, 1);
+        } else {
+            graph.setNodeOwner(vertexNumber, 0);
+        }
+    }
+
+    public boolean gameEnded() {
+        return this.players[0].doesNotOwnVertices() || this.players[1].doesNotOwnVertices();
+    }
 }

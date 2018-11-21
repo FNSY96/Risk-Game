@@ -72,29 +72,23 @@ public class Graph {
         return ownedContinents;
     }
 
-    public int getOwner(int vertexNumber)
-    {
-    	return this.nodeAndOwner[vertexNumber];			
+    public int getOwner(int vertexNumber) {
+        return this.nodeAndOwner[vertexNumber];
     }
 
-    public int getTroopsInVertex(int vertexNumber)
-    {
-    	return this.vertices[vertexNumber].getTroops();
+    public int getTroopsInVertex(int vertexNumber) {
+        return this.vertices[vertexNumber].getTroops();
     }
-    
 
-	public boolean isNeighbour(int v1, int v2) 
-	{
-		return this.adjacencyList[v1].contains(v2);
-	}
-	
-	public void setNumberOfTroopsInVertex(int vertexNumber , int numberOfTroops)
-	{
-		this.vertices[vertexNumber].setTroops(numberOfTroops);
-	}
-	
-	public void setNodeOwner(int vertexNumber , int ownerNumber)
-	{
-		this.nodeAndOwner[vertexNumber] = ownerNumber;
-	}
+    public boolean isNeighbour(int v1, int v2) {
+        return this.adjacencyList[v1].contains(v2);
+    }
+
+    public void setNumberOfTroopsInVertex(int vertexNumber, int numberOfTroops) {
+        this.vertices[vertexNumber].setTroops(numberOfTroops);
+    }
+
+    public void setNodeOwner(int vertexNumber, int ownerNumber) {
+        this.nodeAndOwner[vertexNumber] = ownerNumber;
+    }
 }

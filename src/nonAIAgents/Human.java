@@ -1,4 +1,11 @@
 package nonAIAgents;
 
-public class Human {
+import gameModeling.Game;
+
+public class Human extends Agent{
+
+    @Override
+    public void performActions(Game game) {
+
+    }
 }
