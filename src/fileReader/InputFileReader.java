@@ -79,4 +79,13 @@ public class InputFileReader {
     private int convertCharToInt(String line, int index) {
         return (int) line.charAt(index) - 48;
     }
+
+    public static void main(String[] args) {
+        ArrayList<Integer> x = new ArrayList<>();
+        x.add(1);
+        x.add(2);
+        x.add(4);
+
+        System.out.println(x.contains(3));
+    }
 }

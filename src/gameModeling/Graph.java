@@ -82,8 +82,8 @@ public class Graph {
         }
         return ownedContinents;
     }
-
-    
-
+    private boolean isNeighbour(int v1, int v2) {
+        return this.adjacencyList[v1].contains(v2);
+    }
 
 }
