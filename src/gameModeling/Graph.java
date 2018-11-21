@@ -52,17 +52,6 @@ public class Graph {
     }
 
 
-    public void assignOwners() {
-        for (int i = 1; i < this.nodeAndOwner.length; i++) {
-            if (i % 2 == 0) {
-                this.nodeAndOwner[i] = 0;
-            } else {
-                this.nodeAndOwner[i] = 1;
-            }
-        }
-    }
-
-
     public ArrayList<Point> ownedContinents(int playerNumber) {
         ArrayList<Point> ownedContinents = new ArrayList<>();
 
@@ -82,8 +71,30 @@ public class Graph {
         }
         return ownedContinents;
     }
-    private boolean isNeighbour(int v1, int v2) {
-        return this.adjacencyList[v1].contains(v2);
+
+    public int getOwner(int vertexNumber)
+    {
+    	return this.nodeAndOwner[vertexNumber];			
     }
 
+    public int getTroopsInVertex(int vertexNumber)
+    {
+    	return this.vertices[vertexNumber].getTroops();
+    }
+    
+
+	public boolean isNeighbour(int v1, int v2) 
+	{
+		return this.adjacencyList[v1].contains(v2);
+	}
+	
+	public void setNumberOfTroopsInVertex(int vertexNumber , int numberOfTroops)
+	{
+		this.vertices[vertexNumber].setTroops(numberOfTroops);
+	}
+	
+	public void setNodeOwner(int vertexNumber , int ownerNumber)
+	{
+		this.nodeAndOwner[vertexNumber] = ownerNumber;
+	}
 }
