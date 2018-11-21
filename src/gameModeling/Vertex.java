@@ -18,4 +18,5 @@ public class Vertex {
     public void addTroops(int troops) {
         this.troops += troops;
     }
+
 }
