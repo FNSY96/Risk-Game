@@ -91,4 +91,44 @@ public class Graph {
     public void setNodeOwner(int vertexNumber, int ownerNumber) {
         this.nodeAndOwner[vertexNumber] = ownerNumber;
     }
+    
+    public int findMinVertex(int playerNumber)
+    {
+    	int vertexWithMinTroops = 0;
+    	int minTroops = Integer.MAX_VALUE;
+    	
+    	for(int i = 1; i < this.nodeAndOwner.length; i++)
+    	{
+    		if(this.nodeAndOwner[i] == playerNumber)
+    		{
+    			int currentNumberOfTroops = vertices[i].getTroops();
+    			if(currentNumberOfTroops < minTroops)
+    			{
+    				minTroops = currentNumberOfTroops;
+    				vertexWithMinTroops = i;
+    			}
+    		}
+    	}
+    	return vertexWithMinTroops;
+    }
+    
+    public int findMaxVertex(int playerNumber)
+    {
+    	int vertexWithMaxTroops = 0;
+    	int maxTroops = Integer.MIN_VALUE;
+    	
+    	for(int i = 1; i < this.nodeAndOwner.length; i++)
+    	{
+    		if(this.nodeAndOwner[i] == playerNumber)
+    		{
+    			int currentNumberOfTroops = vertices[i].getTroops();
+    			if(currentNumberOfTroops > maxTroops)
+    			{
+    				maxTroops = currentNumberOfTroops;
+    				vertexWithMaxTroops = i;
+    			}
+    		}
+    	}
+    	return vertexWithMaxTroops;
+    }
 }
