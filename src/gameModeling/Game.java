@@ -13,15 +13,15 @@ public class Game {
     private Graph graph;
     private Player[] players;
 
-    public void Game() {
+    public Game() {
         InputFileReader in = new InputFileReader();
         FileReturns fileReturns = in.readFile();
         this.graph = new Graph(fileReturns.getNumberOfVertices());
         graph.buildGraph(fileReturns.getEdges());
         graph.buildContinents(fileReturns.getContinents());
-        this.assignOwners(fileReturns.getNumberOfVertices() + 1);
         players = new Player[2];
         this.initializePlayers();
+        this.assignOwners(fileReturns.getNumberOfVertices() + 1);
     }
 
     private void initializePlayers() {
@@ -30,7 +30,7 @@ public class Game {
         }
     }
 
-    private void addTroops(int playerNumber) {
+    public void addTroops(int playerNumber) {
         this.giveDefaultTroops(playerNumber);
         this.giveContinentBonus(playerNumber);
     }

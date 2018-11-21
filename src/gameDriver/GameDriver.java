@@ -32,16 +32,30 @@ public class GameDriver {
 
 
     public Game playTurn() {
-    	if(turnNumber == 0)
-    	{
-    		((Passive)agent0).performActions(game,turnNumber);
-    		turnNumber = 1;
-    	}else
-    	{
-    		((Passive)agent1).performActions(game,turnNumber);
-    		turnNumber = 0;
-    	}
+
+        if (turnNumber == 0) {
+            this.game.addTroops(0);
+            ((Passive) agent0).performActions(game, turnNumber);
+            turnNumber = 1;
+        } else {
+            this.game.addTroops(1);
+            ((Passive) agent1).performActions(game, turnNumber);
+            turnNumber = 0;
+        }
+
+        this.printGraph();
+
         return game;
+    }
+
+    private void printGraph() {
+        for (int i = 1; i < this.game.getGraph().adjacencyList.length; i++) {
+            System.out.print(i + " Owner: " + this.game.getGraph().getOwner(i) + ": ");
+            System.out.println(this.game.getGraph().getTroopsInVertex(i));
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
     }
 
 
