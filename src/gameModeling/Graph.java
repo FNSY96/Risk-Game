@@ -11,10 +11,8 @@ public class Graph {
     private ArrayList<Integer> continentsNumbers;
     private HashMap<Integer, ArrayList<Integer>> continents;
     private Vertex[] vertices;
-//    private int numberOfVertices;
 
     public Graph(int numberOfVertices) {
-//        this.numberOfVertices = numberOfVertices;
         this.adjacencyList = new ArrayList[numberOfVertices + 1];
         this.nodeAndOwner = new int[numberOfVertices + 1];
         this.continents = new HashMap<>();
@@ -113,6 +111,11 @@ public class Graph {
             }
         }
         return vertexWithMinTroops;
+    }
+
+
+    public int getNumberOfVertices() {
+        return this.adjacencyList.length - 1;
     }
 
     public int findMaxVertex(int playerNumber) {
