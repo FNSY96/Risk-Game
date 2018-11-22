@@ -4,6 +4,7 @@ import gameModeling.Game;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Aggressive extends Agent {
 
@@ -23,6 +24,8 @@ public class Aggressive extends Agent {
         int maxVertex = game.getGraph().findMaxVertex(playerNumber);
         int opponentNumber = game.getOpponentNumber(playerNumber);
         ArrayList<Integer> adjacentToMaxVertex = game.getGraph().getAdjacentToVertex(maxVertex);
+        Collections.sort(adjacentToMaxVertex);
+        // Tie breaking we select the smallest one in the order
         ArrayList<Integer> opponentContinents = game.getOpponentContinents(opponentNumber);
 
         for (int i = 0; i < adjacentToMaxVertex.size(); i++) {
