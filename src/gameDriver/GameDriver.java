@@ -43,8 +43,6 @@ public class GameDriver {
             return ((Aggressive) agent).agentDeploys(game, turnNumber);
         } else if (agent instanceof Pacifist) {
             return ((Pacifist) agent).agentDeploys(game, turnNumber);
-        } else if(agent instanceof Human) {
-            return ((Human) agent).agentDeploys(game, turnNumber);
         }
 
         return false;
@@ -57,11 +55,12 @@ public class GameDriver {
             return ((Aggressive) agent).agentAttacks(game, turnNumber);
         } else if (agent instanceof Pacifist) {
             return ((Pacifist) agent).agentAttacks(game, turnNumber);
-        } else if(agent instanceof Human) {
-            return ((Human) agent).agentAttacks(game, turnNumber);
         }
         return false;
     }
+
+
+
 
 
     public Game playDeploymentTurn() {
@@ -93,6 +92,44 @@ public class GameDriver {
         } else {
 
             this.performAgentAttack(this.agent1);
+
+            turnNumber = 0;
+        }
+
+        this.printGraph();
+
+        return game;
+    }
+
+    public Game playHumanDeploymentTurn(int vertexToDeployIn) {
+
+        if (turnNumber == 0) {
+            this.initializeTurn(turnNumber);
+
+            ((Human) this.agent0).agentDeploys(game, turnNumber, vertexToDeployIn);
+
+        } else {
+            this.initializeTurn(turnNumber);
+
+            ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
+
+        }
+
+        this.printGraph();
+
+        return game;
+    }
+
+    public Game playHumanAttackTurn(int attackerVertex, int opponentVertex) {
+
+        if (turnNumber == 0) {
+
+            ((Human) this.agent0).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
+
+            turnNumber = 1;
+        } else {
+
+            ((Human) this.agent1).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
 
             turnNumber = 0;
         }

@@ -9,8 +9,20 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        GameDriver driver = new GameDriver(PlayersTypes.PACIFIST, PlayersTypes.PASSIVE);
+        GameDriver driver = new GameDriver(PlayersTypes.PASSIVE, PlayersTypes.PASSIVE);
 
+//
+//        driver.playDeploymentTurn();
+//        driver.playAttackTurn();
+//
+//        driver.playDeploymentTurn();
+//        driver.playAttackTurn();
+//
+//        driver.playDeploymentTurn();
+//        driver.playAttackTurn();
+//
+//        driver.playDeploymentTurn();
+//        driver.playAttackTurn();
 
         Game game = driver.playDeploymentTurn();
 
