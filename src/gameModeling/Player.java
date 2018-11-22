@@ -1,12 +1,17 @@
 package gameModeling;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class Player {
     private int availableTroops;
     private int numberOfOwnedVertices;
+    private ArrayList<Integer> ownedContinents;
 
     public Player() {
         this.availableTroops = 0;
         this.numberOfOwnedVertices = 0;
+        this.ownedContinents = new ArrayList<>();
     }
 
     public void setAvailableTroops(int troops) {
@@ -43,6 +48,14 @@ public class Player {
 
     public boolean doesNotOwnVertices() {
         return (this.numberOfOwnedVertices == 0);
+    }
+
+    public void setOwnedContinents(ArrayList<Integer> ownedContinents) {
+        this.ownedContinents = ownedContinents;
+    }
+
+    public ArrayList<Integer> getOwnedContinents() {
+        return this.ownedContinents;
     }
 
 }

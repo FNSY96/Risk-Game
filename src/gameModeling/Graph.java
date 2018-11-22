@@ -1,9 +1,10 @@
 package gameModeling;
 
+import utilities.ArrayListUtilities;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Graph {
     public ArrayList<Integer>[] adjacencyList;
@@ -114,10 +115,6 @@ public class Graph {
     }
 
 
-    public int getNumberOfVertices() {
-        return this.adjacencyList.length - 1;
-    }
-
     public int findMaxVertex(int playerNumber) {
         int vertexWithMaxTroops = 0;
         int maxTroops = Integer.MIN_VALUE;
@@ -133,4 +130,36 @@ public class Graph {
         }
         return vertexWithMaxTroops;
     }
+
+    public int getNumberOfVertices() {
+        return this.adjacencyList.length - 1;
+    }
+
+    public int getContinentOfVertex(int vertexNumber) {
+
+        for (int i = 0; i < this.continentsNumbers.size(); i++) {
+            int continentNumber = this.continentsNumbers.get(i);
+            if (this.continents.get(continentNumber).contains(vertexNumber)) {
+                return continentNumber;
+            }
+        }
+        return -1;
+    }
+
+    public ArrayList<Integer> getAdjacentToVertex(int vertexNumber) {
+        return this.adjacencyList[vertexNumber];
+    }
+
+    public ArrayList<Point> getVertexAndTroops(int vertexNumber) {
+        ArrayList<Integer> adjacent = this.adjacencyList[vertexNumber];
+        ArrayList<Integer> troops = new ArrayList<>();
+        for (int i = 0; i < adjacent.size(); i++) {
+            troops.add(this.getTroopsInVertex(adjacent.get(i)));
+        }
+
+        ArrayList<Point> merged = ArrayListUtilities.mergeIntegerAL(adjacent, troops);
+        ArrayListUtilities.sortPointsAL(merged);
+        return merged;
+    }
+
 }
