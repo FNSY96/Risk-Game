@@ -7,7 +7,7 @@ import utilities.ArrayListUtilities;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Cloneable {
 
     private static final int DEFAULT_TROOPS = 3;
     private static final int ATTACK_BONUS = 2;
@@ -24,6 +24,11 @@ public class Game {
         this.initializePlayers();
         this.assignOwners(fileReturns.getNumberOfVertices() + 1);
     }
+
+//    private Game(Graph graph, Player[] players) {
+//        this.graph = graph.clone();
+//        this.players = players.clone();
+//    }
 
     private void initializePlayers() {
         for (int i = 0; i < players.length; i++) {
@@ -70,7 +75,7 @@ public class Game {
 
     public boolean attack(int attackerVertex, int defenderVertex) {    //don't change the lines order in this function
         int remainingArmy = checkAttackingConditions(graph.getTroopsInVertex(attackerVertex), graph.getTroopsInVertex(defenderVertex));
-        if (this.canAttack(attackerVertex,defenderVertex)) {
+        if (this.canAttack(attackerVertex, defenderVertex)) {
             graph.setNumberOfTroopsInVertex(attackerVertex, remainingArmy - 1);
             graph.setNumberOfTroopsInVertex(defenderVertex, 1);
             this.players[graph.getOwner(attackerVertex)].incrementNumberOfOwnedVertices();
@@ -126,8 +131,11 @@ public class Game {
     }
 
 
-
     public boolean gameEnded() {
         return this.players[0].doesNotOwnVertices() || this.players[1].doesNotOwnVertices();
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return (Game) super.clone();
     }
 }

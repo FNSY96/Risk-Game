@@ -6,7 +6,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Graph {
+public class Graph implements Cloneable{
     public ArrayList<Integer>[] adjacencyList;
     private int[] nodeAndOwner;
     private ArrayList<Integer> continentsNumbers;
@@ -20,6 +20,14 @@ public class Graph {
         this.vertices = new Vertex[numberOfVertices + 1];
         this.initializeVerticesArray();
         this.initializeAdjacencyList();
+    }
+
+    private Graph(ArrayList<Integer>[] adjacencyList, int[] nodeAndOwner, ArrayList<Integer> continentsNumbers, HashMap<Integer, ArrayList<Integer>> continents, Vertex[] vertices) {
+        this.adjacencyList = adjacencyList.clone();
+        this.nodeAndOwner = nodeAndOwner.clone();
+        this.continentsNumbers = (ArrayList<Integer>) continentsNumbers.clone();
+        this.continents = (HashMap<Integer, ArrayList<Integer>>) continents.clone();
+        this.vertices = vertices.clone();
     }
 
     private void initializeAdjacencyList() {
@@ -161,18 +169,25 @@ public class Graph {
         ArrayListUtilities.sortPointsAL(merged);
         return merged;
     }
-    
-    public ArrayList<Integer> getVerticesOfPlayer(int playerNumber)
-    {
-    	ArrayList<Integer> verticesOfPlayer = new ArrayList<>();
-    	for(int i = 1; i < adjacencyList.length;i++)
-    	{
-    		if(this.getOwner(i) == playerNumber)
-    		{
-    			verticesOfPlayer.add(i);
-    		}
-    	}
-    	return verticesOfPlayer;
+
+    public ArrayList<Integer> getVerticesOfPlayer(int playerNumber) {
+        ArrayList<Integer> verticesOfPlayer = new ArrayList<>();
+        for (int i = 1; i < adjacencyList.length; i++) {
+            if (this.getOwner(i) == playerNumber) {
+                verticesOfPlayer.add(i);
+            }
+        }
+        return verticesOfPlayer;
     }
+
+    public Object clone() throws CloneNotSupportedException {
+        return (Graph)super.clone();
+    }
+
+//    @Override
+//    public Graph clone() {
+//        return new Graph(this.adjacencyList, this.nodeAndOwner, this.continentsNumbers, this.continents, this.vertices);
+//    }
+
 
 }
