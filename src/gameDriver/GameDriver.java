@@ -1,10 +1,7 @@
 package gameDriver;
 
 import gameModeling.Game;
-import nonAIAgents.Agent;
-import nonAIAgents.Aggressive;
-import nonAIAgents.Pacifist;
-import nonAIAgents.Passive;
+import nonAIAgents.*;
 
 public class GameDriver {
 
@@ -25,7 +22,7 @@ public class GameDriver {
             return new Passive();
         } else if (playerType.equals(PlayersTypes.AGGRESSIVE)) {
             return new Aggressive();
-        }else if (playerType.equals(PlayersTypes.PACIFIST)) {
+        } else if (playerType.equals(PlayersTypes.PACIFIST)) {
             return new Pacifist();
         }
         return null;
@@ -39,30 +36,63 @@ public class GameDriver {
         // extra
     }
 
-    public Game playTurn() {
+    private boolean performAgentDeployment(Agent agent) {
+        if (agent instanceof Passive) {
+            return ((Passive) agent).agentDeploys(game, turnNumber);
+        } else if (agent instanceof Aggressive) {
+            return ((Aggressive) agent).agentDeploys(game, turnNumber);
+        } else if (agent instanceof Pacifist) {
+            return ((Pacifist) agent).agentDeploys(game, turnNumber);
+        } else if(agent instanceof Human) {
+            return ((Human) agent).agentDeploys(game, turnNumber);
+        }
+
+        return false;
+    }
+
+    private boolean performAgentAttack(Agent agent) {
+        if (agent instanceof Passive) {
+            return ((Passive) agent).agentAttacks(game, turnNumber);
+        } else if (agent instanceof Aggressive) {
+            return ((Aggressive) agent).agentAttacks(game, turnNumber);
+        } else if (agent instanceof Pacifist) {
+            return ((Pacifist) agent).agentAttacks(game, turnNumber);
+        } else if(agent instanceof Human) {
+            return ((Human) agent).agentAttacks(game, turnNumber);
+        }
+        return false;
+    }
+
+
+    public Game playDeploymentTurn() {
 
         if (turnNumber == 0) {
             this.initializeTurn(turnNumber);
 
-            if (agent0 instanceof Passive) {
-                ((Passive) agent0).performActions(game, turnNumber);
-            } else if (agent0 instanceof Aggressive) {
-                ((Aggressive) agent0).performActions(game, turnNumber);
-            } else if (agent0 instanceof Pacifist) {
-                ((Pacifist) agent0).performActions(game, turnNumber);
-            }
+            this.performAgentDeployment(this.agent0);
 
-            turnNumber = 1;
         } else {
             this.initializeTurn(turnNumber);
 
-            if (agent1 instanceof Passive) {
-                ((Passive) agent1).performActions(game, turnNumber);
-            } else if (agent1 instanceof Aggressive) {
-                ((Aggressive) agent1).performActions(game, turnNumber);
-            } else if (agent1 instanceof Pacifist) {
-                ((Pacifist) agent1).performActions(game, turnNumber);
-            }
+            this.performAgentDeployment(this.agent1);
+
+        }
+
+        this.printGraph();
+
+        return game;
+    }
+
+    public Game playAttackTurn() {
+
+        if (turnNumber == 0) {
+
+            this.performAgentAttack(this.agent0);
+
+            turnNumber = 1;
+        } else {
+
+            this.performAgentAttack(this.agent1);
 
             turnNumber = 0;
         }

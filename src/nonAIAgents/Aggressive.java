@@ -9,14 +9,19 @@ import java.util.Collections;
 public class Aggressive extends Agent {
 
     @Override
-    public void performActions(Game game, int playerNumber) {
+    public boolean agentDeploys(Game game, int playerNumber) {
         int maxVertex = game.getGraph().findMaxVertex(playerNumber);
-        game.deployTroops(playerNumber, maxVertex);
+        return game.deployTroops(playerNumber, maxVertex);
+    }
+
+    @Override
+    public boolean agentAttacks(Game game, int playerNumber) {
+        int maxVertex = game.getGraph().findMaxVertex(playerNumber);
         int attackedVertex = this.getOpponentVertexBelongToContinent(game, playerNumber);
         if (attackedVertex > -1) {
-            game.attack(maxVertex, attackedVertex);
+            return game.attack(maxVertex, attackedVertex);
         } else {
-            attackMaxOpponent(game, playerNumber);
+            return attackMaxOpponent(game, playerNumber);
         }
     }
 
