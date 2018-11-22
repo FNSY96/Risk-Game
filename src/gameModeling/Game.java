@@ -2,6 +2,7 @@ package gameModeling;
 
 import fileReader.FileReturns;
 import fileReader.InputFileReader;
+import utilities.ArrayListUtilities;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -35,6 +36,16 @@ public class Game {
         this.giveContinentBonus(playerNumber);
     }
 
+    public ArrayList<Integer> getOpponentContinents(int opponentNumber) {
+        this.setOwnedContinents(opponentNumber);
+        return this.players[opponentNumber].getOwnedContinents();
+    }
+
+    public void setOwnedContinents(int playerNumber) {
+        ArrayList<Integer> converted = ArrayListUtilities.convertPointALToIntegerAL(this.graph.ownedContinents(playerNumber));
+        this.players[playerNumber].setOwnedContinents(converted);
+    }
+
     private void giveDefaultTroops(int playerNumber) {
         this.players[playerNumber].addTroops(DEFAULT_TROOPS);
     }
@@ -51,7 +62,6 @@ public class Game {
             int currentTroopsInVertex = graph.getTroopsInVertex(vertexNumber);
             int playerCurrentTroops = players[playerNumber].getAvailableTroops();
             players[playerNumber].setAvailableTroops(0);
-            ;
             graph.setNumberOfTroopsInVertex(vertexNumber, playerCurrentTroops + currentTroopsInVertex);
             return true;
         }
@@ -105,6 +115,12 @@ public class Game {
             graph.setNodeOwner(vertexNumber, 0);
         }
     }
+
+    public int getOpponentNumber(int playerNumber) {
+        return (playerNumber + 1) % 2;
+    }
+
+
 
     public boolean gameEnded() {
         return this.players[0].doesNotOwnVertices() || this.players[1].doesNotOwnVertices();

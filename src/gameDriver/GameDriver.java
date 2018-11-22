@@ -23,7 +23,7 @@ public class GameDriver {
     private Agent setAgents(PlayersTypes playerType) {
         if (playerType.equals(PlayersTypes.PASSIVE)) {
             return new Passive();
-        } else if (playerType.equals(PlayersTypes.HUMAN)) {
+        } else if (playerType.equals(PlayersTypes.AGGRESSIVE)) {
             return new Aggressive();
         }
         return null;
@@ -31,15 +31,33 @@ public class GameDriver {
     }
 
 
+    private void initializeTurn(int playerNumber) {
+        this.game.addTroops(playerNumber);
+        this.game.setOwnedContinents(playerNumber);
+        // extra
+    }
+
     public Game playTurn() {
 
         if (turnNumber == 0) {
-            this.game.addTroops(0);
-            ((Passive) agent0).performActions(game, turnNumber);
+            this.initializeTurn(turnNumber);
+
+            if (agent0 instanceof Passive) {
+                ((Passive) agent0).performActions(game, turnNumber);
+            } else if (agent0 instanceof Aggressive) {
+                ((Aggressive) agent0).performActions(game, turnNumber);
+            }
+
             turnNumber = 1;
         } else {
-            this.game.addTroops(1);
-            ((Passive) agent1).performActions(game, turnNumber);
+            this.initializeTurn(turnNumber);
+
+            if (agent1 instanceof Passive) {
+                ((Passive) agent1).performActions(game, turnNumber);
+            } else if (agent1 instanceof Aggressive) {
+                ((Aggressive) agent1).performActions(game, turnNumber);
+            }
+
             turnNumber = 0;
         }
 
