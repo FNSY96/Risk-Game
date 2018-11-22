@@ -3,10 +3,10 @@ package gameDriver;
 import gameModeling.Game;
 import nonAIAgents.Agent;
 import nonAIAgents.Aggressive;
+import nonAIAgents.Pacifist;
 import nonAIAgents.Passive;
 
 public class GameDriver {
-
 
     private Agent agent0;
     private Agent agent1;
@@ -25,6 +25,8 @@ public class GameDriver {
             return new Passive();
         } else if (playerType.equals(PlayersTypes.AGGRESSIVE)) {
             return new Aggressive();
+        }else if (playerType.equals(PlayersTypes.PACIFIST)) {
+            return new Pacifist();
         }
         return null;
         // to be changed remove null :D
@@ -46,6 +48,8 @@ public class GameDriver {
                 ((Passive) agent0).performActions(game, turnNumber);
             } else if (agent0 instanceof Aggressive) {
                 ((Aggressive) agent0).performActions(game, turnNumber);
+            } else if (agent0 instanceof Pacifist) {
+                ((Pacifist) agent0).performActions(game, turnNumber);
             }
 
             turnNumber = 1;
@@ -56,6 +60,8 @@ public class GameDriver {
                 ((Passive) agent1).performActions(game, turnNumber);
             } else if (agent1 instanceof Aggressive) {
                 ((Aggressive) agent1).performActions(game, turnNumber);
+            } else if (agent1 instanceof Pacifist) {
+                ((Pacifist) agent1).performActions(game, turnNumber);
             }
 
             turnNumber = 0;

@@ -161,5 +161,18 @@ public class Graph {
         ArrayListUtilities.sortPointsAL(merged);
         return merged;
     }
+    
+    public ArrayList<Integer> getVerticesOfPlayer(int playerNumber)
+    {
+    	ArrayList<Integer> verticesOfPlayer = new ArrayList<>();
+    	for(int i = 1; i < adjacencyList.length;i++)
+    	{
+    		if(this.getOwner(i) == playerNumber)
+    		{
+    			verticesOfPlayer.add(i);
+    		}
+    	}
+    	return verticesOfPlayer;
+    }
 
 }
