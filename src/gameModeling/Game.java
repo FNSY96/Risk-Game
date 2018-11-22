@@ -70,7 +70,7 @@ public class Game {
 
     public boolean attack(int attackerVertex, int defenderVertex) {    //don't change the lines order in this function
         int remainingArmy = checkAttackingConditions(graph.getTroopsInVertex(attackerVertex), graph.getTroopsInVertex(defenderVertex));
-        if (graph.isNeighbour(attackerVertex, defenderVertex) && graph.getOwner(attackerVertex) != graph.getOwner(defenderVertex) && remainingArmy > 1) {
+        if (this.canAttack(attackerVertex,defenderVertex)) {
             graph.setNumberOfTroopsInVertex(attackerVertex, remainingArmy - 1);
             graph.setNumberOfTroopsInVertex(defenderVertex, 1);
             this.players[graph.getOwner(attackerVertex)].incrementNumberOfOwnedVertices();
@@ -81,6 +81,11 @@ public class Game {
         }
 
         return false;
+    }
+
+    public boolean canAttack(int attackerVertex, int defenderVertex) {    //don't change the lines order in this function
+        int remainingArmy = checkAttackingConditions(graph.getTroopsInVertex(attackerVertex), graph.getTroopsInVertex(defenderVertex));
+        return (graph.isNeighbour(attackerVertex, defenderVertex) && graph.getOwner(attackerVertex) != graph.getOwner(defenderVertex) && remainingArmy > 1);
     }
 
 
