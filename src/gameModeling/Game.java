@@ -2,17 +2,18 @@ package gameModeling;
 
 import fileReader.FileReturns;
 import fileReader.InputFileReader;
-import utilities.ArrayListUtilities;
+import utilities.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game implements Cloneable {
 
     private static final int DEFAULT_TROOPS = 3;
     private static final int ATTACK_BONUS = 2;
     private Graph graph;
-    private Player[] players;
+    public Player[] players;
 
     public Game() {
         InputFileReader in = new InputFileReader();
@@ -25,10 +26,10 @@ public class Game implements Cloneable {
         this.assignOwners(fileReturns.getNumberOfVertices() + 1);
     }
 
-//    private Game(Graph graph, Player[] players) {
-//        this.graph = graph.clone();
-//        this.players = players.clone();
-//    }
+    public Game(Game game) {
+        this.graph = new Graph(game.graph);
+        this.players = ArrayUtilities.copyPlayerArray(game.players);
+    }
 
     private void initializePlayers() {
         for (int i = 0; i < players.length; i++) {
@@ -135,7 +136,7 @@ public class Game implements Cloneable {
         return this.players[0].doesNotOwnVertices() || this.players[1].doesNotOwnVertices();
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        return (Game) super.clone();
-    }
+//    public Object clone() throws CloneNotSupportedException {
+//        return (Game) super.clone();
+//    }
 }

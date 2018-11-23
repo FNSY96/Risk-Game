@@ -14,6 +14,12 @@ public class Player {
         this.ownedContinents = new ArrayList<>();
     }
 
+    public Player(Player player) {
+        this.availableTroops = player.availableTroops;
+        this.numberOfOwnedVertices = player.numberOfOwnedVertices;
+        this.ownedContinents = new ArrayList<>(player.ownedContinents);
+    }
+
     public void setAvailableTroops(int troops) {
         this.availableTroops = troops;
     }

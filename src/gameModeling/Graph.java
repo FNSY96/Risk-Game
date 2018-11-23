@@ -4,9 +4,10 @@ import utilities.ArrayListUtilities;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
-public class Graph implements Cloneable{
+public class Graph implements Cloneable {
     public ArrayList<Integer>[] adjacencyList;
     private int[] nodeAndOwner;
     private ArrayList<Integer> continentsNumbers;
@@ -22,12 +23,13 @@ public class Graph implements Cloneable{
         this.initializeAdjacencyList();
     }
 
-    private Graph(ArrayList<Integer>[] adjacencyList, int[] nodeAndOwner, ArrayList<Integer> continentsNumbers, HashMap<Integer, ArrayList<Integer>> continents, Vertex[] vertices) {
-        this.adjacencyList = adjacencyList.clone();
-        this.nodeAndOwner = nodeAndOwner.clone();
-        this.continentsNumbers = (ArrayList<Integer>) continentsNumbers.clone();
-        this.continents = (HashMap<Integer, ArrayList<Integer>>) continents.clone();
-        this.vertices = vertices.clone();
+
+    public Graph(Graph graph) {
+        this.adjacencyList = Arrays.copyOf(graph.adjacencyList, graph.adjacencyList.length);
+        this.nodeAndOwner = Arrays.copyOf(graph.nodeAndOwner, graph.nodeAndOwner.length);
+        this.continentsNumbers = new ArrayList<>(graph.continentsNumbers);
+        this.continents = new HashMap<>(graph.continents);
+        this.vertices = Arrays.copyOf(graph.vertices, graph.vertices.length);
     }
 
     private void initializeAdjacencyList() {
@@ -181,7 +183,7 @@ public class Graph implements Cloneable{
     }
 
     public Object clone() throws CloneNotSupportedException {
-        return (Graph)super.clone();
+        return (Graph) super.clone();
     }
 
 //    @Override
