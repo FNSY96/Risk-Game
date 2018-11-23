@@ -39,6 +39,8 @@ public class Greedy extends AIAgent {
             minHeap.add(pair);
         }
 
+        System.out.println(minHeap.peek().getCost());
+
         return minHeap.poll().getNode().game;
     }
 }

@@ -9,25 +9,21 @@ import gameModeling.Game;
 public class Heuristic {
 
     private static final int OWNED_VERTICES_INVERSE_PRIORITY = 1;
-    private static final int BORDER_TROOPS_INVERSE_PRIORITY = 2;
+//    private static final int BORDER_TROOPS_INVERSE_PRIORITY = 2;
     private static final int OWNED_CONTINENTS_INVERSE_PRIORITY = 3;
 
     public static int calculateHeuristic(Node node, int playerNumber) {
         Game game = node.game;
-        int totalBorderVerticesValue = getTotalBorderVerticesValue(game, playerNumber);
-        System.out.println("totalBorderVerticesValue: " + totalBorderVerticesValue);
         int ownedContinentsBonus = getOwnedContinentsBonus(game, playerNumber);
-        System.out.println("ownedContinentsBonus: " + ownedContinentsBonus);
         int numberOfOwnedVertices = getNumberOfOwnedVertices(game, playerNumber);
-        System.out.println("numberOfOwnedVertices: " + numberOfOwnedVertices);
-        int heuristic = totalBorderVerticesValue + ownedContinentsBonus + numberOfOwnedVertices;
+        int heuristic =  ownedContinentsBonus + numberOfOwnedVertices;
         System.out.println(heuristic);
-        return heuristic;
+        return -1 *  heuristic;
     }
 
-    private static int getTotalBorderVerticesValue(Game game, int playerNumber) {
-        return BORDER_TROOPS_INVERSE_PRIORITY * game.getGraph().getTotalBordersTroops(playerNumber);
-    }
+//    private static int getTotalBorderVerticesValue(Game game, int playerNumber) {
+//        return BORDER_TROOPS_INVERSE_PRIORITY * game.getGraph().getTotalBordersTroops(playerNumber);
+//    }
 
     private static int getOwnedContinentsBonus(Game game, int playerNumber) {
         int ownedContinentsBonus = 0;
