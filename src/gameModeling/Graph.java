@@ -187,6 +187,24 @@ public class Graph implements Cloneable {
         return (Graph) super.clone();
     }
 
+    public int getTotalBordersTroops(int playerNumber)
+    {
+    	int numberOfTroopsInEdgeVertices = 0;
+    	ArrayList<Integer> verticesOfPlayer = this.getVerticesOfPlayer(playerNumber);
+    	for(int i = 0; i < verticesOfPlayer.size(); i++)
+    	{
+    		ArrayList<Integer> adjacentToVertex = this.getAdjacentToVertex(verticesOfPlayer.get(i));
+    		for(int j = 0; j < adjacentToVertex.size(); j++)
+    		{
+    			if(playerNumber != this.getOwner(adjacentToVertex.get(j)))
+				{
+    				numberOfTroopsInEdgeVertices += this.getTroopsInVertex(verticesOfPlayer.get(i));
+    				break;
+				}
+    		}
+    	}
+    	return numberOfTroopsInEdgeVertices;
+    }
 //    @Override
 //    public Graph clone() {
 //        return new Graph(this.adjacencyList, this.nodeAndOwner, this.continentsNumbers, this.continents, this.vertices);
