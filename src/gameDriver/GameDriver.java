@@ -1,5 +1,6 @@
 package gameDriver;
 
+import AIAgents.AStar;
 import AIAgents.Greedy;
 import gameModeling.Game;
 import nonAIAgents.*;
@@ -27,6 +28,8 @@ public class GameDriver {
             return new Pacifist();
         } else if (playerType.equals(PlayersTypes.GREEDY)) {
             return new Greedy();
+        } else if (playerType.equals(PlayersTypes.A_STAR)) {
+            return new AStar();
         }
         return null;
         // to be changed remove null :D
@@ -107,6 +110,8 @@ public class GameDriver {
     private void performAIAgentAction(Agent agent) {
         if (agent instanceof Greedy) {
             this.game = ((Greedy) agent).performAction(game, turnNumber);
+        }else if (agent instanceof AStar) {
+            this.game = ((AStar) agent).performAction(game, turnNumber);
         }
     }
 
