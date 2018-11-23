@@ -20,7 +20,7 @@ public class Node {
         for (int i = 0; i < currentPlayerVertices.size(); i++) {
             ArrayList<Integer> adjacentToCurrentVertex = this.game.getGraph().getAdjacentToVertex(currentPlayerVertices.get(i));
             Game deployChild = new Game(this.game);
-            deployChild.addTroops(playerNumber);
+            deployChild.deployTroops(playerNumber, currentPlayerVertices.get(i));
             boolean attacked = false;
 
             for (int j = 0; j < adjacentToCurrentVertex.size(); j++) {
