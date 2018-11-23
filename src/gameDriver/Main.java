@@ -11,8 +11,19 @@ import java.util.HashMap;
 
 public class Main {
 
+    private static void printGraph(Game game) {
+        for (int i = 1; i < game.getGraph().adjacencyList.length; i++) {
+            System.out.print(i + " Owner: " + game.getGraph().getOwner(i) + ": ");
+            System.out.println(game.getGraph().getTroopsInVertex(i));
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
+    }
+
     public static void main(String[] args) {
-        GameDriver driver = new GameDriver(PlayersTypes.PASSIVE, PlayersTypes.PASSIVE);
+        GameDriver driver = new GameDriver(PlayersTypes.AGGRESSIVE, PlayersTypes.PASSIVE);
+        
 
 //
 //        driver.playDeploymentTurn();
@@ -35,32 +46,7 @@ public class Main {
 //                game = driver.playDeploymentTurn();
 //        }
 
-        Game game = new Game();
 
-        Game game2 = new Game(game);
-
-        game2.getGraph().adjacencyList[1].set(0, -111);
-        game2.players[0].addTroops(1000);
-
-        ArrayList<Integer> ad = new ArrayList<>();
-        ad.add(3);
-        ad.add(33);
-
-        ArrayList<Integer> ad2 = new ArrayList<>();
-        ad2.add(-1);
-        ad2.add(-3);
-        game.players[0].setOwnedContinents(ad);
-        game2.players[0].setOwnedContinents(ad2);
-
-        System.out.println(game.players[0].getOwnedContinents());
-        System.out.println(game2.players[0].getOwnedContinents());
-
-        System.out.println(game.players == game2.players);
-        System.out.println(game.players[0].getOwnedContinents().get(0) == game2.players[0].getOwnedContinents().get(0));
-//
-
-        System.out.println(game.getGraph().hashCode());
-        System.out.println(game2.getGraph().hashCode());
     }
 
 }

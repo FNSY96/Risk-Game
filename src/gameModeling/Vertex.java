@@ -7,6 +7,10 @@ public class Vertex {
         this.troops = 1;
     }
 
+    public Vertex(Vertex vertex) {
+        this.troops = vertex.troops;
+    }
+
     public int getTroops() {
         return this.troops;
     }

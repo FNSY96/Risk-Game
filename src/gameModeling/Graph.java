@@ -1,6 +1,7 @@
 package gameModeling;
 
 import utilities.ArrayListUtilities;
+import utilities.ArrayUtilities;
 
 import java.awt.Point;
 import java.util.ArrayList;
@@ -25,11 +26,11 @@ public class Graph implements Cloneable {
 
 
     public Graph(Graph graph) {
-        this.adjacencyList = Arrays.copyOf(graph.adjacencyList, graph.adjacencyList.length);
+        this.adjacencyList = ArrayUtilities.copyAdjacencyList(graph.adjacencyList);
         this.nodeAndOwner = Arrays.copyOf(graph.nodeAndOwner, graph.nodeAndOwner.length);
         this.continentsNumbers = new ArrayList<>(graph.continentsNumbers);
         this.continents = new HashMap<>(graph.continents);
-        this.vertices = Arrays.copyOf(graph.vertices, graph.vertices.length);
+        this.vertices = ArrayUtilities.copyVertexArray(graph.vertices);
     }
 
     private void initializeAdjacencyList() {
