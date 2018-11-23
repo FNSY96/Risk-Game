@@ -23,7 +23,7 @@ public class Main {
 
     public static void main(String[] args) {
         GameDriver driver = new GameDriver(PlayersTypes.AGGRESSIVE, PlayersTypes.PASSIVE);
-        
+
 
 //
 //        driver.playDeploymentTurn();

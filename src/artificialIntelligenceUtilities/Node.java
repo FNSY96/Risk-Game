@@ -14,4 +14,8 @@ public class Node {
     public Node(Game game) {
         this.game = game;
     }
+
+    public void expandNode(int playerNumber) {
+
+    }
 }
