@@ -16,6 +16,32 @@ public class Node {
     }
 
     public void expandNode(int playerNumber) {
-
+    ArrayList<Integer> currentPlayerVertices = this.game.getGraph().getVerticesOfPlayer(playerNumber);
+    for(int i=0; i < currentPlayerVertices.size(); i++)
+    {
+    	ArrayList<Integer> adjacentToCurrentVertex = this.game.getGraph().getAdjacentToVertex(currentPlayerVertices.get(i));
+		Game deployChild = new Game(this.game);
+		deployChild.addTroops(playerNumber);
+		boolean attacked = false;
+    	for(int j = 0; j < adjacentToCurrentVertex.size(); j++)
+    	{
+    		boolean canAttack = deployChild.canAttack(currentPlayerVertices.get(i), adjacentToCurrentVertex.get(j));
+    		if(canAttack)
+    		{
+        		Game childGame = new Game(deployChild);
+        		childGame.attack(currentPlayerVertices.get(i), adjacentToCurrentVertex.get(j));
+        		Node childNode = new Node(childGame);
+        		this.children.add(childNode);
+        		childNode.parent = this;
+        		attacked = true;
+    		}
+    	}
+    	if(!attacked)
+    	{
+    		Node childNode = new Node(deployChild);
+    		this.children.add(childNode);
+    		childNode.parent = this;	
+    	}
+    }
     }
 }
