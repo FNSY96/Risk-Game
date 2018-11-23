@@ -13,7 +13,7 @@ public class Game implements Cloneable {
     private static final int DEFAULT_TROOPS = 3;
     private static final int ATTACK_BONUS = 2;
     private Graph graph;
-    public Player[] players;
+    private Player[] players;
 
     public Game() {
         InputFileReader in = new InputFileReader();

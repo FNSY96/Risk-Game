@@ -22,7 +22,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-//        GameDriver driver = new GameDriver(PlayersTypes.AGGRESSIVE, PlayersTypes.PASSIVE);
+        GameDriver driver = new GameDriver(PlayersTypes.AGGRESSIVE, PlayersTypes.PASSIVE);
 
         ArrayList<Integer> al = new ArrayList<>();
 

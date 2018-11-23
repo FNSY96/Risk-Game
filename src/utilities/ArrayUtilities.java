@@ -4,7 +4,6 @@ import gameModeling.Player;
 import gameModeling.Vertex;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ArrayUtilities {
     public static Player[] copyPlayerArray(Player[] players) {
@@ -39,12 +38,4 @@ public class ArrayUtilities {
         return copy;
     }
 
-//    public static int[] copyIntArray(int[] array) {
-//        int[] copy = new int[array.length];
-//        for (int i = 1; i < array.length; i++) {
-//            copy[i] = array[i];
-//        }
-//
-//        return copy;
-//    }
 }

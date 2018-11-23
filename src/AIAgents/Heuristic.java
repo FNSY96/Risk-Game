@@ -1,10 +1,10 @@
 package AIAgents;
 
-import gameModeling.Game;
+import artificialIntelligenceUtilities.Node;
 
 public class Heuristic {
 
-    public static int calculateHeuristic(Game game) {
+    public static int calculateHeuristic(Node node) {
         /*
         CALCULATE HEURISTIC xD
          */
