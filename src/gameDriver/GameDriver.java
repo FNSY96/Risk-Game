@@ -1,5 +1,6 @@
 package gameDriver;
 
+import AIAgents.Greedy;
 import gameModeling.Game;
 import nonAIAgents.*;
 
@@ -24,6 +25,8 @@ public class GameDriver {
             return new Aggressive();
         } else if (playerType.equals(PlayersTypes.PACIFIST)) {
             return new Pacifist();
+        } else if (playerType.equals(PlayersTypes.GREEDY)) {
+            return new Greedy();
         }
         return null;
         // to be changed remove null :D
@@ -56,11 +59,9 @@ public class GameDriver {
         } else if (agent instanceof Pacifist) {
             return ((Pacifist) agent).agentAttacks(game, turnNumber);
         }
+
         return false;
     }
-
-
-
 
 
     public Game playDeploymentTurn() {
@@ -77,10 +78,11 @@ public class GameDriver {
 
         }
 
-        this.printGraph();
+//        this.game.getGraph().printGraph();
 
         return game;
     }
+
 
     public Game playAttackTurn() {
 
@@ -96,58 +98,78 @@ public class GameDriver {
             turnNumber = 0;
         }
 
-        this.printGraph();
+        this.game.getGraph().printGraph();
 
         return game;
     }
 
-    public Game playHumanDeploymentTurn(int vertexToDeployIn) {
 
-        if (turnNumber == 0) {
-            this.initializeTurn(turnNumber);
-
-            ((Human) this.agent0).agentDeploys(game, turnNumber, vertexToDeployIn);
-
-        } else {
-            this.initializeTurn(turnNumber);
-
-            ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
-
+    private void performAIAgentAction(Agent agent) {
+        if (agent instanceof Greedy) {
+            this.game = ((Greedy) agent).performAction(game, turnNumber);
         }
-
-        this.printGraph();
-
-        return game;
     }
 
-    public Game playHumanAttackTurn(int attackerVertex, int opponentVertex) {
+
+    public Game playAITurn() {
 
         if (turnNumber == 0) {
+            this.initializeTurn(turnNumber);
 
-            ((Human) this.agent0).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
+            this.performAIAgentAction(this.agent0);
 
             turnNumber = 1;
         } else {
+            this.initializeTurn(turnNumber);
 
-            ((Human) this.agent1).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
+            this.performAIAgentAction(this.agent1);
 
             turnNumber = 0;
         }
 
-        this.printGraph();
+        this.game.getGraph().printGraph();
 
         return game;
     }
 
-    private void printGraph() {
-        for (int i = 1; i < this.game.getGraph().adjacencyList.length; i++) {
-            System.out.print(i + " Owner: " + this.game.getGraph().getOwner(i) + ": ");
-            System.out.println(this.game.getGraph().getTroopsInVertex(i));
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-    }
+
+//    public Game playHumanDeploymentTurn(int vertexToDeployIn) {
+//
+//        if (turnNumber == 0) {
+//            this.initializeTurn(turnNumber);
+//
+//            ((Human) this.agent0).agentDeploys(game, turnNumber, vertexToDeployIn);
+//
+//        } else {
+//            this.initializeTurn(turnNumber);
+//
+//            ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
+//
+//        }
+//
+//        this.game.getGraph().printGraph();
+//
+//        return game;
+//    }
+//
+//    public Game playHumanAttackTurn(int attackerVertex, int opponentVertex) {
+//
+//        if (turnNumber == 0) {
+//
+//            ((Human) this.agent0).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
+//
+//            turnNumber = 1;
+//        } else {
+//
+//            ((Human) this.agent1).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
+//
+//            turnNumber = 0;
+//        }
+//
+//        this.game.getGraph().printGraph();
+//
+//        return game;
+//    }
 
 
 }

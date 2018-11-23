@@ -9,14 +9,20 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class Greedy extends Agent {
+public class Greedy extends AIAgent {
 
     @Override
     public boolean agentDeploys(Game game, int playerNumber) {
         return true;
     }
 
+    @Override
     public boolean agentAttacks(Game game, int playerNumber) {
+        return true;
+    }
+
+    @Override
+    public Game performAction(Game game, int playerNumber) {
         Node node = new Node(game);
         node.expandNode(playerNumber);
 
@@ -27,15 +33,12 @@ public class Greedy extends Agent {
             }
         });
 
-
         for (Node child : node.children) {
-            int heuristic = Heuristic.calculateHeuristic(child);
+            int heuristic = Heuristic.calculateHeuristic(child, playerNumber);
             Pair pair = new Pair(child, heuristic);
             minHeap.add(pair);
         }
 
-        game = minHeap.poll().getNode().game;
-// may need change
-        return true;
+        return minHeap.poll().getNode().game;
     }
 }

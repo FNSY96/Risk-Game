@@ -8,33 +8,37 @@ import gameModeling.Game;
 
 public class Heuristic {
 
-    public static int calculateHeuristic(Node node,int playerNumber) {
-    	Game game = node.game;
-    	int totalBorderVerticesValue = getTotalBorderVerticesValue(game,playerNumber);
-    	int ownedContinentsBonus = getOwnedContinentsBonus(game,playerNumber);
-    	int numberOfOwnedVertices = getNumberOfOwnedVertices(game,playerNumber);
-    	int heuristic = totalBorderVerticesValue + ownedContinentsBonus + numberOfOwnedVertices;
-    	return heuristic;
+    private static final int OWNED_VERTICES_INVERSE_PRIORITY = 1;
+    private static final int BORDER_TROOPS_INVERSE_PRIORITY = 2;
+    private static final int OWNED_CONTINENTS_INVERSE_PRIORITY = 3;
+
+    public static int calculateHeuristic(Node node, int playerNumber) {
+        Game game = node.game;
+        int totalBorderVerticesValue = getTotalBorderVerticesValue(game, playerNumber);
+        System.out.println("totalBorderVerticesValue: " + totalBorderVerticesValue);
+        int ownedContinentsBonus = getOwnedContinentsBonus(game, playerNumber);
+        System.out.println("ownedContinentsBonus: " + ownedContinentsBonus);
+        int numberOfOwnedVertices = getNumberOfOwnedVertices(game, playerNumber);
+        System.out.println("numberOfOwnedVertices: " + numberOfOwnedVertices);
+        int heuristic = totalBorderVerticesValue + ownedContinentsBonus + numberOfOwnedVertices;
+        System.out.println(heuristic);
+        return heuristic;
     }
-    
-    private static int getTotalBorderVerticesValue(Game game,int playerNumber)
-    {    	
-    	return 2*game.getGraph().getTotalBordersTroops(playerNumber);
+
+    private static int getTotalBorderVerticesValue(Game game, int playerNumber) {
+        return BORDER_TROOPS_INVERSE_PRIORITY * game.getGraph().getTotalBordersTroops(playerNumber);
     }
-    
-    private static int getOwnedContinentsBonus(Game game,int playerNumber)
-    {
-    	int ownedContinentsBonus = 0;
-    	ArrayList<Point> ownedContinentsOfPlayer = game.getGraph().ownedContinents(playerNumber);
-    	for(Point p : ownedContinentsOfPlayer)
-    	{
-    		ownedContinentsBonus += p.y; 
-    	}
-    	return 3*ownedContinentsBonus;
+
+    private static int getOwnedContinentsBonus(Game game, int playerNumber) {
+        int ownedContinentsBonus = 0;
+        ArrayList<Point> ownedContinentsOfPlayer = game.getGraph().ownedContinents(playerNumber);
+        for (Point p : ownedContinentsOfPlayer) {
+            ownedContinentsBonus += p.y;
+        }
+        return OWNED_CONTINENTS_INVERSE_PRIORITY * ownedContinentsBonus;
     }
-    
-    private static int getNumberOfOwnedVertices(Game game,int playerNumber)
-    {
-    	return 1*game.getGraph().getVerticesOfPlayer(playerNumber).size();
+
+    private static int getNumberOfOwnedVertices(Game game, int playerNumber) {
+        return OWNED_VERTICES_INVERSE_PRIORITY * game.getGraph().getVerticesOfPlayer(playerNumber).size();
     }
 }

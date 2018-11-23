@@ -1,13 +1,6 @@
 package gameDriver;
 
 import gameModeling.Game;
-import gameModeling.Graph;
-import gameModeling.Player;
-import utilities.ArrayListUtilities;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Main {
 
@@ -22,27 +15,29 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        GameDriver driver = new GameDriver(PlayersTypes.AGGRESSIVE, PlayersTypes.PASSIVE);
+        GameDriver driver = new GameDriver(PlayersTypes.PASSIVE, PlayersTypes.GREEDY);
 
-        ArrayList<Integer> al = new ArrayList<>();
+        while (true) {
+            driver.playDeploymentTurn();
+            Game game = driver.playAttackTurn();
 
-        al.add(31);
+            if (game.gameEnded())
+                break;
+            game = driver.playAITurn();
+            if (game.gameEnded())
+                break;
+        }
 
-        al = new ArrayList<>();
-
-        System.out.println(al);
+//        driver.playDeploymentTurn();
+//        driver.playAttackTurn();
+//
+//        driver.playAITurn();
 //
 //        driver.playDeploymentTurn();
 //        driver.playAttackTurn();
 //
-//        driver.playDeploymentTurn();
-//        driver.playAttackTurn();
-//
-//        driver.playDeploymentTurn();
-//        driver.playAttackTurn();
-//
-//        driver.playDeploymentTurn();
-//        driver.playAttackTurn();
+//        driver.playAITurn();
+
 
 //        Game game = driver.playDeploymentTurn();
 //
@@ -51,7 +46,6 @@ public class Main {
 //            if (!game.gameEnded())
 //                game = driver.playDeploymentTurn();
 //        }
-
 
     }
 

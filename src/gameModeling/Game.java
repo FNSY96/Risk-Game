@@ -6,9 +6,8 @@ import utilities.*;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class Game implements Cloneable {
+public class Game {
 
     private static final int DEFAULT_TROOPS = 3;
     private static final int ATTACK_BONUS = 2;
@@ -136,7 +135,4 @@ public class Game implements Cloneable {
         return this.players[0].doesNotOwnVertices() || this.players[1].doesNotOwnVertices();
     }
 
-//    public Object clone() throws CloneNotSupportedException {
-//        return (Game) super.clone();
-//    }
 }

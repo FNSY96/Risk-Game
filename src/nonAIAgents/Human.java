@@ -12,4 +12,14 @@ public class Human extends Agent {
     public boolean agentAttacks(Game game, int playerNumber, int attackerVertex, int opponentVertex) {
         return game.attack(attackerVertex, opponentVertex);
     }
+
+    @Override
+    public boolean agentDeploys(Game game, int playerNumber) {
+        return false;
+    }
+
+    @Override
+    public boolean agentAttacks(Game game, int playerNumber) {
+        return false;
+    }
 }

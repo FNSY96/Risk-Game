@@ -2,12 +2,8 @@ package nonAIAgents;
 
 import gameModeling.Game;
 
-public class Agent {
-    public boolean agentDeploys(Game game, int playerNumber) {
-        return true;
-    }
+public abstract class Agent {
+    public abstract boolean agentDeploys(Game game, int playerNumber);
 
-    public boolean agentAttacks(Game game, int playerNumber) {
-        return true;
-    }
+    public abstract boolean agentAttacks(Game game, int playerNumber);
 }
