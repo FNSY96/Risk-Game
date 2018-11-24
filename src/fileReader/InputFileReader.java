@@ -13,6 +13,10 @@ public class InputFileReader {
 
 
     public FileReturns readFile() {
+        return this.readFile("input.txt");
+    }
+
+    public FileReturns readFile(String filePath) {
         ArrayList<Point> edges = new ArrayList<>();
         ArrayList<ArrayList<Integer>> continents = new ArrayList<>();
 
@@ -20,7 +24,7 @@ public class InputFileReader {
         int numberOfVertices = 0;
 
         try {
-            reader = new BufferedReader(new FileReader("input.txt"));
+            reader = new BufferedReader(new FileReader(filePath));
             String line = reader.readLine();
             while (line != null) {
                 line = line.toUpperCase();
@@ -47,45 +51,35 @@ public class InputFileReader {
     }
 
     private int getNumOfVertices(String line) {
-        return Integer.valueOf(line.replace("V ", ""));
+        return Integer.valueOf(line.replace("V", "").replaceAll("\\s+", ""));
     }
 
     private void getNumOfContinents(String line) {
-        line = line.replace("P ", "");
+        line = line.replace("P", "").replaceAll("\\s+", "");
         this.numOfContinents = Integer.valueOf(line);
     }
 
     private void getNumOfEdges(String line) {
-        line = line.replace("E ", "");
+        line = line.replace("E", "").replaceAll("\\s+", "");
         this.numOfEdges = Integer.valueOf(line);
     }
 
     private void extractEdge(String line, ArrayList<Point> edges) {
         Point p = new Point();
-        line = line.substring(1, 4);
-        p.x = convertCharToInt(line, 0);
-        p.y = convertCharToInt(line, 2);
+        line = line.replace("(", "").replace(")", "");
+        String[] split = line.split(" ");
+        p.x = Integer.parseInt(split[0]);
+        p.y = Integer.parseInt(split[1]);
         edges.add(p);
     }
 
     private void extractContinent(String line, ArrayList<ArrayList<Integer>> continents) {
         ArrayList<Integer> list = new ArrayList<>();
-        list.add(convertCharToInt(line, 0));
-        list.add(convertCharToInt(line, 2));
-        list.add(convertCharToInt(line, 4));
+        String[] split = line.split(" ");
+        for (int i = 0; i < split.length; i++) {
+            list.add(Integer.parseInt(split[i]));
+        }
+
         continents.add(list);
-    }
-
-    private int convertCharToInt(String line, int index) {
-        return (int) line.charAt(index) - 48;
-    }
-
-    public static void main(String[] args) {
-        ArrayList<Integer> x = new ArrayList<>();
-        x.add(1);
-        x.add(2);
-        x.add(4);
-
-        System.out.println(x.contains(3));
     }
 }

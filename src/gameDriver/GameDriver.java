@@ -110,7 +110,7 @@ public class GameDriver {
     private void performAIAgentAction(Agent agent) {
         if (agent instanceof Greedy) {
             this.game = ((Greedy) agent).performAction(game, turnNumber);
-        }else if (agent instanceof AStar) {
+        } else if (agent instanceof AStar) {
             this.game = ((AStar) agent).performAction(game, turnNumber);
         }
     }
@@ -138,43 +138,43 @@ public class GameDriver {
     }
 
 
-//    public Game playHumanDeploymentTurn(int vertexToDeployIn) {
-//
-//        if (turnNumber == 0) {
-//            this.initializeTurn(turnNumber);
-//
-//            ((Human) this.agent0).agentDeploys(game, turnNumber, vertexToDeployIn);
-//
-//        } else {
-//            this.initializeTurn(turnNumber);
-//
-//            ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
-//
-//        }
-//
-//        this.game.getGraph().printGraph();
-//
-//        return game;
-//    }
-//
-//    public Game playHumanAttackTurn(int attackerVertex, int opponentVertex) {
-//
-//        if (turnNumber == 0) {
-//
-//            ((Human) this.agent0).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
-//
-//            turnNumber = 1;
-//        } else {
-//
-//            ((Human) this.agent1).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
-//
-//            turnNumber = 0;
-//        }
-//
-//        this.game.getGraph().printGraph();
-//
-//        return game;
-//    }
+    public Game playHumanDeploymentTurn(int vertexToDeployIn) {
+
+        if (turnNumber == 0) {
+            this.initializeTurn(turnNumber);
+
+            ((Human) this.agent0).agentDeploys(game, turnNumber, vertexToDeployIn);
+
+        } else {
+            this.initializeTurn(turnNumber);
+
+            ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
+
+        }
+
+        this.game.getGraph().printGraph();
+
+        return game;
+    }
+
+    public Game playHumanAttackTurn(int attackerVertex, int opponentVertex) {
+
+        if (turnNumber == 0) {
+
+            ((Human) this.agent0).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
+
+            turnNumber = 1;
+        } else {
+
+            ((Human) this.agent1).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
+
+            turnNumber = 0;
+        }
+
+        this.game.getGraph().printGraph();
+
+        return game;
+    }
 
 
 }
