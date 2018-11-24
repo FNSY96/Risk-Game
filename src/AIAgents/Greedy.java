@@ -26,21 +26,21 @@ public class Greedy extends AIAgent {
         Node node = new Node(game);
         node.expandNode(playerNumber);
 
-        PriorityQueue<Pair> minHeap = new PriorityQueue<>(new Comparator<Pair>() {
+        PriorityQueue<Pair> maxHeap = new PriorityQueue<>(new Comparator<Pair>() {
             @Override
             public int compare(Pair o1, Pair o2) {
-                return new Integer(o1.getCost()).compareTo(o2.getCost());
+                return -1 * new Integer(o1.getCost()).compareTo(o2.getCost());
             }
         });
 
         for (Node child : node.children) {
             int heuristic = Heuristic.calculateHeuristic(child, playerNumber);
             Pair pair = new Pair(child, heuristic);
-            minHeap.add(pair);
+            maxHeap.add(pair);
         }
 
-        System.out.println(minHeap.peek().getCost());
+        System.out.println(maxHeap.peek().getNode().level);
 
-        return minHeap.poll().getNode().game;
+        return maxHeap.poll().getNode().game;
     }
 }

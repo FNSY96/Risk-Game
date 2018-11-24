@@ -18,7 +18,7 @@ public class Heuristic {
         int numberOfOwnedVertices = getNumberOfOwnedVertices(game, playerNumber);
         int heuristic =  ownedContinentsBonus + numberOfOwnedVertices;
         System.out.println(heuristic);
-        return -1 *  heuristic;
+        return heuristic;
     }
 
 //    private static int getTotalBorderVerticesValue(Game game, int playerNumber) {
