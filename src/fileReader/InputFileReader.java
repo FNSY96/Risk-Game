@@ -25,7 +25,7 @@ public class InputFileReader {
 
         try {
             reader = new BufferedReader(new FileReader(filePath));
-            String line = reader.readLine();
+            String line = reader.readLine().toUpperCase();
             while (line != null) {
                 line = line.toUpperCase();
                 if (lineNum == 0) {
