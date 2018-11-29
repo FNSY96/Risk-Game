@@ -15,37 +15,18 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        GameDriver driver = new GameDriver(PlayersTypes.PASSIVE, PlayersTypes.A_STAR);
+        GameDriver driver = new GameDriver(PlayersTypes.PASSIVE, PlayersTypes.REAL_TIME_A_STAR);
 
-//        while (true) {
-//            driver.playDeploymentTurn();
-//            Game game = driver.playAttackTurn();
-//
-//            if (game.gameEnded())
-//                break;
-//            game = driver.playAITurn();
-//            if (game.gameEnded())
-//                break;
-//        }
+        while (true) {
+            driver.playDeploymentTurn();
+            Game game = driver.playAttackTurn();
 
-        driver.playDeploymentTurn();
-        driver.playAttackTurn();
-
-        driver.playAITurn();
-
-        driver.playDeploymentTurn();
-        driver.playAttackTurn();
-
-        driver.playAITurn();
-
-
-//        Game game = driver.playDeploymentTurn();
-//
-//        while (!game.gameEnded()) {
-//            game = driver.playAttackTurn();
-//            if (!game.gameEnded())
-//                game = driver.playDeploymentTurn();
-//        }
+            if (game.gameEnded())
+                break;
+            game = driver.playAITurn();
+            if (game.gameEnded())
+                break;
+        }
 
     }
 
