@@ -2,6 +2,8 @@ package gameDriver;
 
 import AIAgents.AStar;
 import AIAgents.Greedy;
+import AIAgents.RealTimeAStar;
+import com.sun.org.apache.regexp.internal.RE;
 import gameModeling.Game;
 import nonAIAgents.*;
 
@@ -30,6 +32,8 @@ public class GameDriver {
             return new Greedy();
         } else if (playerType.equals(PlayersTypes.A_STAR)) {
             return new AStar();
+        } else if (playerType.equals(PlayersTypes.REAL_TIME_A_STAR)) {
+            return new RealTimeAStar();
         }
         return null;
         // to be changed remove null :D
@@ -112,6 +116,8 @@ public class GameDriver {
             this.game = ((Greedy) agent).performAction(game, turnNumber);
         } else if (agent instanceof AStar) {
             this.game = ((AStar) agent).performAction(game, turnNumber);
+        } else if (agent instanceof RealTimeAStar) {
+            this.game = ((RealTimeAStar) agent).performAction(game, turnNumber);
         }
     }
 
