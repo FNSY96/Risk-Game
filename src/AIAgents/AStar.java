@@ -70,12 +70,14 @@ public class AStar extends AIAgent {
                 break;
             }
             //play passive turn
-            beforePassivePlay.deployTroops(game.getOpponentNumber(playerNumber), game.getGraph().findMinVertex(game.getOpponentNumber(playerNumber)));
+            beforePassivePlay.addTroops(beforePassivePlay.getOpponentNumber(playerNumber));
+            beforePassivePlay.deployTroops(beforePassivePlay.getOpponentNumber(playerNumber), beforePassivePlay.getGraph().findMinVertex(beforePassivePlay.getOpponentNumber(playerNumber)));
             Node afterPassivePlay = new Node(beforePassivePlay);
 
             maxHeapNode.addChild(afterPassivePlay);
-//            maxHeapNode.game.getGraph().printGraph();
-            node = maxHeapNode;
+            System.out.println("iam child");
+//            maxHeapNode.children.get(0).game.getGraph().printGraph();
+            node = afterPassivePlay;
             node.expandNode(playerNumber);
         }
 
@@ -95,7 +97,7 @@ public class AStar extends AIAgent {
 
         for (Game game : solutionPath)
             game.getGraph().printGraph();
-
+        System.out.println("Done inside");
         return solutionPath;
     }
 
