@@ -12,14 +12,15 @@ import artificialIntelligenceUtilities.Pair;
 
 public class AStar extends AIAgent {
 
-	private static int index ;
-	private static boolean enterOnce ;
-	private ArrayList<Game> solutionPath;
+    private static int index;
+    private static boolean enterOnce;
+    private ArrayList<Game> solutionPath;
 
-	public AStar()
-	{
-		this.enterOnce = true;
-	}
+    public AStar() {
+        this.enterOnce = true;
+        this.solutionPath = new ArrayList<>();
+    }
+
     @Override
     public boolean agentDeploys(Game game, int playerNumber) {
         return false;
@@ -29,22 +30,21 @@ public class AStar extends AIAgent {
     public boolean agentAttacks(Game game, int playerNumber) {
         return false;
     }
-    
+
     @Override
     public Game performAction(Game game, int playerNumber) {
-    	if(this.enterOnce)
-    	{
-    		this.index = playerNumber;
-    		generateTree(game,playerNumber);
-    		enterOnce = false;
-    	}
-    	
-        return solutionPath.get(index +=2);
+        if (this.enterOnce) {
+            this.index = playerNumber;
+            this.solutionPath = generateTree(game, playerNumber);
+            enterOnce = false;
+        }
+
+        System.out.println(index);
+        return solutionPath.get(index += 2);
     }
-    
-    private ArrayList<Game> generateTree(Game game, int playerNumber)
-    {
-    	Node node = new Node(game);
+
+    private ArrayList<Game> generateTree(Game game, int playerNumber) {
+        Node node = new Node(game);
         node.expandNode(playerNumber);
         PriorityQueue<Pair> maxHeap = new PriorityQueue<>(new Comparator<Pair>() {
             @Override
@@ -52,42 +52,51 @@ public class AStar extends AIAgent {
                 return -1 * new Integer(o1.getCost()).compareTo(o2.getCost());
             }
         });
-        while(!node.game.gameEnded())
-        {
-	        for (Node child : node.children) {
-	        	child.level = index;
-	            int heuristic = Heuristic.calculateHeuristic(child, playerNumber);
-	            Pair pair = new Pair(child, heuristic + index);
-	            maxHeap.add(pair);
-	        }
-	        
-	        Node maxHeapNode = maxHeap.poll().getNode();
-	        Game beforePassivePlay = new Game(maxHeapNode.game);
-	        if(beforePassivePlay.gameEnded())
-	        {
-	        	node = maxHeapNode;
-	        	break;
-	        }
-	        //play passive turn
-	        beforePassivePlay.deployTroops(game.getOpponentNumber(playerNumber), game.getGraph().findMinVertex(game.getOpponentNumber(playerNumber)));
-	        Node afterPassivePlay = new Node(beforePassivePlay);
 
-	        maxHeapNode.addChild(afterPassivePlay);
-	        node = maxHeapNode;
-	        node.expandNode(playerNumber);
+        while (!node.game.gameEnded()) {
+            for (Node child : node.children) {
+                child.level = index;
+                int heuristic = Heuristic.calculateHeuristic(child, playerNumber);
+                Pair pair = new Pair(child, heuristic + index);
+                maxHeap.add(pair);
+            }
+
+            Node maxHeapNode = maxHeap.poll().getNode();
+//            maxHeapNode.game.getGraph().printGraph();
+
+            Game beforePassivePlay = new Game(maxHeapNode.game);
+            if (beforePassivePlay.gameEnded()) {
+                node = maxHeapNode;
+                break;
+            }
+            //play passive turn
+            beforePassivePlay.deployTroops(game.getOpponentNumber(playerNumber), game.getGraph().findMinVertex(game.getOpponentNumber(playerNumber)));
+            Node afterPassivePlay = new Node(beforePassivePlay);
+
+            maxHeapNode.addChild(afterPassivePlay);
+//            maxHeapNode.game.getGraph().printGraph();
+            node = maxHeapNode;
+            node.expandNode(playerNumber);
         }
-        
+
+//        System.out.println("Heap: " + maxHeap.size());
         return getSolutionPath(node);
     }
-    
-    public ArrayList<Game> getSolutionPath(Node lastNode)
-    {
-    	while(lastNode.parent != null)
-    	{
-    		solutionPath.add(0, lastNode.game);
-    		lastNode = lastNode.parent;
-    	}
-    return solutionPath;
+
+    public ArrayList<Game> getSolutionPath(Node lastNode) {
+        ArrayList<Game> solutionPath = new ArrayList<>();
+
+        while (lastNode != null) {
+            solutionPath.add(0, new Game(lastNode.game));
+            lastNode = lastNode.parent;
+        }
+
+        System.out.println("Inside: " + solutionPath.size());
+
+        for (Game game : solutionPath)
+            game.getGraph().printGraph();
+
+        return solutionPath;
     }
 
 }

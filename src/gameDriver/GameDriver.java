@@ -106,7 +106,7 @@ public class GameDriver {
             this.performAgentAttack(this.agent1);
         }
 
-        this.game.getGraph().printGraph();
+//        this.game.getGraph().printGraph();
 
         return game;
     }
@@ -138,7 +138,7 @@ public class GameDriver {
         }
 
 
-        this.game.getGraph().printGraph();
+//        this.game.getGraph().printGraph();
 
         return game;
     }
@@ -153,7 +153,7 @@ public class GameDriver {
             ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
         }
 
-        this.game.getGraph().printGraph();
+//        this.game.getGraph().printGraph();
 
         return game;
     }
@@ -172,7 +172,7 @@ public class GameDriver {
 
 //        this.changeTurn();
 
-        this.game.getGraph().printGraph();
+//        this.game.getGraph().printGraph();
 
         return game;
     }

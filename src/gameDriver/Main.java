@@ -36,21 +36,19 @@ public class Main {
 //        }
 //
 //    }
-	
-	public static void main(String[] args)
-	{
-		GameDriver driver = new GameDriver(PlayersTypes.A_STAR, PlayersTypes.PASSIVE);
-		while(!driver.getGame().gameEnded())
-		{
-			driver.playAITurn();
-	        driver.getGame().getGraph().printGraph();
-			driver.changeTurn();
-			driver.initializeTurn(driver.getTurn());
-			driver.playDeploymentTurn();
-			driver.changeTurn();
-			driver.initializeTurn(driver.getTurn());
-	        driver.getGame().getGraph().printGraph();
-		}
-	}
+
+    public static void main(String[] args) {
+        GameDriver driver = new GameDriver(PlayersTypes.A_STAR, PlayersTypes.PASSIVE);
+        while (!driver.getGame().gameEnded()) {
+            driver.playAITurn();
+//            driver.getGame().getGraph().printGraph();
+            driver.changeTurn();
+            driver.initializeTurn(driver.getTurn());
+            driver.playDeploymentTurn();
+            driver.changeTurn();
+            driver.initializeTurn(driver.getTurn());
+//            driver.getGame().getGraph().printGraph();
+        }
+    }
 
 }

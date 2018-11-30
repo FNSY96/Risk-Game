@@ -17,7 +17,9 @@ public class Heuristic {
         int ownedContinentsBonus = getOwnedContinentsBonus(game, playerNumber);
         int numberOfOwnedVertices = getNumberOfOwnedVertices(game, playerNumber);
         int heuristic =  ownedContinentsBonus + numberOfOwnedVertices;
-        System.out.println(heuristic);
+        if (game.gameEnded()) {
+            heuristic = Integer.MAX_VALUE;
+        }
         return heuristic;
     }
 
