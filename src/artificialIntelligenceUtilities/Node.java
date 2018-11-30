@@ -15,6 +15,11 @@ public class Node {
         this.game = game;
     }
 
+    public void addChild(Node childNode)
+    {
+    	this.children.add(childNode);
+    	childNode.parent = this;
+    }
     public void expandNode(int playerNumber) {
         ArrayList<Integer> currentPlayerVertices = this.game.getGraph().getVerticesOfPlayer(playerNumber);
         for (int i = 0; i < currentPlayerVertices.size(); i++) {
