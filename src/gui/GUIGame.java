@@ -35,7 +35,7 @@ public class GUIGame extends JFrame {
     private JTextField troopsField;
     private JTextField toattField;
     private JTextField fromattField;
-    private GameDriver d;
+    private GameDriver gameDriver;
     Viewer viewer;
     Graph graph;
     int[] playerType;
@@ -46,6 +46,7 @@ public class GUIGame extends JFrame {
     JButton btnFinishTurn;
     private JLabel lblPlayer;
     private JLabel lblPlayer_1;
+    private boolean turnStart;
 
     /**
      * Launch the application.
@@ -67,8 +68,9 @@ public class GUIGame extends JFrame {
      * Create the frame.
      */
     public GUIGame(int p1, int p2) {
-
+        this.turnStart = true;
         initializeGameDriver(p1, p2);
+
         playerType = new int[2];
         playerType[0] = p1;
         playerType[1] = p2;
@@ -90,7 +92,7 @@ public class GUIGame extends JFrame {
         contentPane.add(lblDropTroopsAt);
 
         lbltroops = new JLabel("28");
-        lbltroops.setBounds(1040, 141, 46, 14);
+        lbltroops.setBounds(1040, 141, 100, 14);
         contentPane.add(lbltroops);
 
         btnDrop = new JButton("drop");
@@ -101,8 +103,8 @@ public class GUIGame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 int drop = Integer.parseInt(troopsField.getText());
-                if (d.getGame().getGraph().getOwner(drop) == d.getTurn()) {
-                    d.playHumanDeploymentTurn(drop);
+                if (gameDriver.getGame().getGraph().getOwner(drop) == gameDriver.getTurn()) {
+                    gameDriver.playHumanDeploymentTurn(drop);
                     troopsField.setText("");
                     updateGraph();
                 } else {
@@ -145,8 +147,8 @@ public class GUIGame extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 int fromatt = Integer.parseInt(fromattField.getText());
                 int toatt = Integer.parseInt(toattField.getText());
-                if (d.getGame().canAttack(fromatt, toatt)) {
-                    d.playHumanAttackTurn(fromatt, toatt);
+                if (gameDriver.getGame().canAttack(fromatt, toatt)) {
+                    gameDriver.playHumanAttackTurn(fromatt, toatt);
                     fromattField.setText("");
                     toattField.setText("");
                     updateGraph();
@@ -180,14 +182,17 @@ public class GUIGame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                if (playerType[d.getTurn()] > 3) {
-                    d.playAITurn();
-                } else if (playerType[d.getTurn()] != 2) {
-                    d.playDeploymentTurn();
-                    d.playAttackTurn();
-                } else {
-                    // human finishes turn without attacking
+                int otherPlayer = (gameDriver.getTurn() + 1) % 2;
+                gameDriver.initializeTurn(otherPlayer);
+                if (playerType[gameDriver.getTurn()] > 3) {
+                    gameDriver.playAITurn();
+                } else if (playerType[gameDriver.getTurn()] != 2) {
+                    gameDriver.playDeploymentTurn();
+                    gameDriver.playAttackTurn();
                 }
+                gameDriver.changeTurn();
+                turnStart = true;
+
                 updateGraph();
             }
         });
@@ -198,21 +203,26 @@ public class GUIGame extends JFrame {
 
     void updateControlState() {
         panel.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
-        if (d.getTurn() == 1) {
+        if (gameDriver.getTurn() == 1) {
             panel.setBorder(BorderFactory.createLineBorder(Color.orange, 5));
         }
-        if (d.getGame().gameEnded()) {
-            int pane = JOptionPane.showConfirmDialog(frame, "player : " + (d.getGame().getGraph().getOwner(1) + 1) + " won the Game", "Game is finished", JOptionPane.DEFAULT_OPTION);
+        if (gameDriver.getGame().gameEnded()) {
+            int pane = JOptionPane.showConfirmDialog(frame, "player : " + (gameDriver.getGame().getGraph().getOwner(1) + 1) + " won the Game", "Game is finished", JOptionPane.DEFAULT_OPTION);
+            System.exit(0);
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
-        lblPlayerNo.setText("player no:" + (d.getTurn() + 1));
-        lbltroops.setText(d.getGame().getPlayer(d.getTurn()).getAvailableTroops() + "");
+        lblPlayerNo.setText("player no:" + (gameDriver.getTurn() + 1));
+        if (turnStart) {
+            lbltroops.setText(gameDriver.getGame().getPlayer(gameDriver.getTurn()).getAvailableTroops() + " to drop");
+            turnStart = false;
+        }
         troopsField.setEnabled(true);
         btnDrop.setEnabled(true);
         fromattField.setEnabled(true);
         toattField.setEnabled(true);
         btnAttack.setEnabled(true);
-        if (playerType[d.getTurn()] != 2) {
+        if (playerType[gameDriver.getTurn()] != 2) {
+            System.out.println(playerType[gameDriver.getTurn()]);
             troopsField.setEnabled(false);
             btnDrop.setEnabled(false);
             fromattField.setEnabled(false);
@@ -223,7 +233,7 @@ public class GUIGame extends JFrame {
 
     void drawGraph() {
 
-        ArrayList<Integer>[] adjacencyList = d.getGame().getGraph().adjacencyList;
+        ArrayList<Integer>[] adjacencyList = gameDriver.getGame().getGraph().adjacencyList;
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel = new JPanel(new GridLayout()) {
@@ -238,14 +248,13 @@ public class GUIGame extends JFrame {
 
         graph = new SingleGraph("Risk", false, true);
 
-        // System.setProperty("org.graphstream.ui.renderer",
-        // "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+
         for (Integer i = 1; i < adjacencyList.length; i++) {
 
             graph.addNode(i.toString()).addAttribute("ui.label",
-                    "(" + i + ")  Troops:" + d.getGame().getGraph().getTroopsInVertex(i) + "  C:"
-                            + d.getGame().getGraph().getContinentOfVertex(i));
-            if (d.getGame().getGraph().getOwner(i) == 0) {
+                    "(" + i + ")  Troops:" + gameDriver.getGame().getGraph().getTroopsInVertex(i) + "  C:"
+                            + gameDriver.getGame().getGraph().getContinentOfVertex(i));
+            if (gameDriver.getGame().getGraph().getOwner(i) == 0) {
                 graph.getNode(i.toString()).addAttribute("ui.style", "size: 50px; fill-color: rgb(0,100,255);");
             } else {
                 graph.getNode(i.toString()).addAttribute("ui.style", "size: 50px; fill-color: rgb(255,100,0);");
@@ -268,7 +277,6 @@ public class GUIGame extends JFrame {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         contentPane.add(panel);
@@ -278,12 +286,12 @@ public class GUIGame extends JFrame {
 
     void updateGraph() {
 
-        ArrayList<Integer>[] adjacencyList = d.getGame().getGraph().adjacencyList;
+        ArrayList<Integer>[] adjacencyList = gameDriver.getGame().getGraph().adjacencyList;
         for (Integer i = 1; i < adjacencyList.length; i++) {
             graph.getNode(i.toString()).addAttribute("ui.label",
-                    "(" + i + ")  Troops:" + d.getGame().getGraph().getTroopsInVertex(i) + "  C:"
-                            + d.getGame().getGraph().getContinentOfVertex(i));
-            if (d.getGame().getGraph().getOwner(i) == 0) {
+                    "(" + i + ")  Troops:" + gameDriver.getGame().getGraph().getTroopsInVertex(i) + "  C:"
+                            + gameDriver.getGame().getGraph().getContinentOfVertex(i));
+            if (gameDriver.getGame().getGraph().getOwner(i) == 0) {
                 graph.getNode(i.toString()).addAttribute("ui.style", "size: 50px; fill-color: rgb(0,100,255);");
             } else {
                 graph.getNode(i.toString()).addAttribute("ui.style", "size: 50px; fill-color: rgb(255,100,0);");
@@ -293,7 +301,7 @@ public class GUIGame extends JFrame {
     }
 
     void initializeGameDriver(int p1, int p2) {
-        d = new GameDriver(PlayersTypes.values()[p1], PlayersTypes.values()[p2]);
+        gameDriver = new GameDriver(PlayersTypes.values()[p1], PlayersTypes.values()[p2]);
 
     }
 }

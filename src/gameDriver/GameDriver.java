@@ -25,6 +25,7 @@ public class GameDriver {
         this.agent1 = this.setAgents(player1);
         this.game = new Game();
         this.turnNumber = 0;
+        this.initializeTurn(this.turnNumber);
     }
 
     public int getTurn() {
@@ -50,14 +51,12 @@ public class GameDriver {
             return new Human();
         }
         return null;
-        // to be changed remove null :D
     }
 
 
-    private void initializeTurn(int playerNumber) {
+    public void initializeTurn(int playerNumber) {
         this.game.addTroops(playerNumber);
         this.game.setOwnedContinents(playerNumber);
-        // extra
     }
 
     private boolean performAgentDeployment(Agent agent) {
@@ -86,20 +85,13 @@ public class GameDriver {
 
 
     public Game playDeploymentTurn() {
-
         if (turnNumber == 0) {
-            this.initializeTurn(turnNumber);
-
             this.performAgentDeployment(this.agent0);
 
         } else {
-            this.initializeTurn(turnNumber);
-
             this.performAgentDeployment(this.agent1);
 
         }
-
-//        this.GUIGame.getGraph().printGraph();
 
         return game;
     }
@@ -108,15 +100,10 @@ public class GameDriver {
     public Game playAttackTurn() {
 
         if (turnNumber == 0) {
-
             this.performAgentAttack(this.agent0);
-
-            turnNumber = 1;
         } else {
 
             this.performAgentAttack(this.agent1);
-
-            turnNumber = 0;
         }
 
         this.game.getGraph().printGraph();
@@ -125,8 +112,11 @@ public class GameDriver {
     }
 
     public void changeTurn() {
+
         turnNumber = (turnNumber + 1) % 2;
+
     }
+
 
     private void performAIAgentAction(Agent agent) {
         if (agent instanceof Greedy) {
@@ -142,18 +132,11 @@ public class GameDriver {
     public Game playAITurn() {
 
         if (turnNumber == 0) {
-            this.initializeTurn(turnNumber);
-
             this.performAIAgentAction(this.agent0);
-
-            turnNumber = 1;
         } else {
-            this.initializeTurn(turnNumber);
-
             this.performAIAgentAction(this.agent1);
-
-            turnNumber = 0;
         }
+
 
         this.game.getGraph().printGraph();
 
@@ -164,15 +147,10 @@ public class GameDriver {
     public Game playHumanDeploymentTurn(int vertexToDeployIn) {
 
         if (turnNumber == 0) {
-            this.initializeTurn(turnNumber);
-
             ((Human) this.agent0).agentDeploys(game, turnNumber, vertexToDeployIn);
 
         } else {
-            this.initializeTurn(turnNumber);
-
             ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
-
         }
 
         this.game.getGraph().printGraph();
@@ -186,13 +164,13 @@ public class GameDriver {
 
             ((Human) this.agent0).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
 
-            turnNumber = 1;
         } else {
 
             ((Human) this.agent1).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
 
-            turnNumber = 0;
         }
+
+//        this.changeTurn();
 
         this.game.getGraph().printGraph();
 

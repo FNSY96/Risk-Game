@@ -135,6 +135,7 @@ public class Start extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 p2 = 2;
+                System.out.println("---"+p1+"---"+p2+"nnn");
             }
         });
 
@@ -223,11 +224,12 @@ public class Start extends JFrame {
         buttonGroup.add(radioButton_9);
         radioButton_9.setBounds(70, 220, 109, 23);
         contentPane.add(radioButton_9);
-        radioButton_8.addActionListener(new ActionListener() {
+        radioButton_9.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 p1 = 2;
+           
             }
         });
 
@@ -242,7 +244,9 @@ public class Start extends JFrame {
                     public void run() {
                         try {
                             dispose();
+                           
                             GUIGame frame = new GUIGame(p1, p2);
+                            
                             frame.setVisible(true);
                         } catch (Exception e) {
                             e.printStackTrace();
