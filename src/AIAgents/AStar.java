@@ -34,7 +34,7 @@ public class AStar extends AIAgent {
     @Override
     public Game performAction(Game game, int playerNumber) {
         if (this.enterOnce) {
-            this.index = playerNumber + 1;
+            this.index = 1;
             this.solutionPath = generateTree(new Game(game), playerNumber);
             enterOnce = false;
         }
