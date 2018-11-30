@@ -30,6 +30,13 @@ public class Game {
         this.players = ArrayUtilities.copyPlayerArray(game.players);
     }
 
+    public Player getPlayer(int p) {
+
+        return players[p];
+
+
+    }
+
     private void initializePlayers() {
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player();

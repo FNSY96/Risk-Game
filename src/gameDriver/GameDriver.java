@@ -3,7 +3,7 @@ package gameDriver;
 import AIAgents.AStar;
 import AIAgents.Greedy;
 import AIAgents.RealTimeAStar;
-import com.sun.org.apache.regexp.internal.RE;
+
 import gameModeling.Game;
 import nonAIAgents.*;
 
@@ -14,11 +14,23 @@ public class GameDriver {
     private Game game;
     private int turnNumber;
 
+    public Game getGame() {
+
+        return game;
+
+    }
+
     public GameDriver(PlayersTypes player0, PlayersTypes player1) {
         this.agent0 = this.setAgents(player0);
         this.agent1 = this.setAgents(player1);
         this.game = new Game();
         this.turnNumber = 0;
+    }
+
+    public int getTurn() {
+
+        return turnNumber;
+
     }
 
     private Agent setAgents(PlayersTypes playerType) {
@@ -34,6 +46,8 @@ public class GameDriver {
             return new AStar();
         } else if (playerType.equals(PlayersTypes.REAL_TIME_A_STAR)) {
             return new RealTimeAStar();
+        } else if (playerType.equals(PlayersTypes.HUMAN)) {
+            return new Human();
         }
         return null;
         // to be changed remove null :D
@@ -85,7 +99,7 @@ public class GameDriver {
 
         }
 
-//        this.game.getGraph().printGraph();
+//        this.GUIGame.getGraph().printGraph();
 
         return game;
     }
@@ -110,6 +124,9 @@ public class GameDriver {
         return game;
     }
 
+    public void changeTurn() {
+        turnNumber = (turnNumber + 1) % 2;
+    }
 
     private void performAIAgentAction(Agent agent) {
         if (agent instanceof Greedy) {

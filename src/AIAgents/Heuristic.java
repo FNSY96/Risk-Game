@@ -21,8 +21,8 @@ public class Heuristic {
         return heuristic;
     }
 
-//    private static int getTotalBorderVerticesValue(Game game, int playerNumber) {
-//        return BORDER_TROOPS_INVERSE_PRIORITY * game.getGraph().getTotalBordersTroops(playerNumber);
+//    private static int getTotalBorderVerticesValue(Game GUIGame, int playerNumber) {
+//        return BORDER_TROOPS_INVERSE_PRIORITY * GUIGame.getGraph().getTotalBordersTroops(playerNumber);
 //    }
 
     private static int getOwnedContinentsBonus(Game game, int playerNumber) {
