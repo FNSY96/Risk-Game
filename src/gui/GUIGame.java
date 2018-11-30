@@ -33,8 +33,8 @@ public class GUIGame extends JFrame {
 	JPanel panel;
 	private JPanel contentPane;
 	private JTextField troopsField;
-	private JTextField toAttackField;
-	private JTextField fromAttackField;
+	private JTextField toattField;
+	private JTextField fromattField;
 	private GameDriver gameDriver;
 	Viewer viewer;
 	Graph graph;
@@ -47,20 +47,25 @@ public class GUIGame extends JFrame {
 	private JLabel lblPlayer;
 	private JLabel lblPlayer_1;
 
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					frame = new GUIGame(2, 2);
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frame = new GUIGame(2, 2);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-
+	/**
+	 * Create the frame.
+	 */
 	public GUIGame(int p1, int p2) {
 
 		initializeGameDriver(p1, p2);
@@ -119,19 +124,19 @@ public class GUIGame extends JFrame {
 		lblAttackFrom.setBounds(950, 237, 86, 20);
 		contentPane.add(lblAttackFrom);
 
-		fromAttackField = new JTextField();
-		fromAttackField.setBounds(950, 268, 86, 20);
-		contentPane.add(fromAttackField);
-		fromAttackField.setColumns(10);
+		fromattField = new JTextField();
+		fromattField.setBounds(950, 268, 86, 20);
+		contentPane.add(fromattField);
+		fromattField.setColumns(10);
 
 		JLabel lblTo = new JLabel("to :");
 		lblTo.setBounds(950, 311, 86, 23);
 		contentPane.add(lblTo);
 
-		toAttackField = new JTextField();
-		toAttackField.setBounds(950, 354, 86, 20);
-		contentPane.add(toAttackField);
-		toAttackField.setColumns(10);
+		toattField = new JTextField();
+		toattField.setBounds(950, 354, 86, 20);
+		contentPane.add(toattField);
+		toattField.setColumns(10);
 
 		btnAttack = new JButton("attack");
 		btnAttack.setBounds(950, 413, 89, 23);
@@ -140,12 +145,12 @@ public class GUIGame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				int fromatt = Integer.parseInt(fromAttackField.getText());
-				int toatt = Integer.parseInt(toAttackField.getText());
+				int fromatt = Integer.parseInt(fromattField.getText());
+				int toatt = Integer.parseInt(toattField.getText());
 				if (gameDriver.getGame().canAttack(fromatt, toatt)) {
 					gameDriver.playHumanAttackTurn(fromatt, toatt);
-					fromAttackField.setText("");
-					toAttackField.setText("");
+					fromattField.setText("");
+					toattField.setText("");
 					updateGraph();
 				} else {
 
@@ -214,15 +219,15 @@ public class GUIGame extends JFrame {
 
 		troopsField.setEnabled(true);
 		btnDrop.setEnabled(true);
-		fromAttackField.setEnabled(true);
-		toAttackField.setEnabled(true);
+		fromattField.setEnabled(true);
+		toattField.setEnabled(true);
 		btnAttack.setEnabled(true);
 		if (playerType[gameDriver.getTurn()] != 2) {
 			System.out.println(playerType[gameDriver.getTurn()]);
 			troopsField.setEnabled(false);
 			btnDrop.setEnabled(false);
-			fromAttackField.setEnabled(false);
-			toAttackField.setEnabled(false);
+			fromattField.setEnabled(false);
+			toattField.setEnabled(false);
 			btnAttack.setEnabled(false);
 		}
 	}
@@ -238,7 +243,7 @@ public class GUIGame extends JFrame {
 				return new Dimension(830, 600);
 			}
 		};
-
+		// panel.setSize(800, 600);
 		panel.setLocation(120, 120);
 
 		graph = new SingleGraph("Risk", false, true);
@@ -265,7 +270,9 @@ public class GUIGame extends JFrame {
 		ViewPanel viewPanel = viewer.addDefaultView(false);
 		panel.add(viewPanel);
 		frame.getContentPane().add(panel);
-
+		frame.pack();
+		// frame.setLocationRelativeTo(null);
+		// frame.setVisible(true);
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -294,5 +301,6 @@ public class GUIGame extends JFrame {
 
 	void initializeGameDriver(int p1, int p2) {
 		gameDriver = new GameDriver(PlayersTypes.values()[p1], PlayersTypes.values()[p2]);
+
 	}
 }
