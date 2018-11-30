@@ -35,15 +35,35 @@ public class AStar extends AIAgent {
                 return -1 * new Integer(o1.getCost()).compareTo(o2.getCost());
             }
         });
-
-        for (Node child : node.children) {
-        	child.level = level;
-            int heuristic = Heuristic.calculateHeuristic(child, playerNumber);
-            Pair pair = new Pair(child, heuristic + level);
-            maxHeap.add(pair);
+        while(!node.game.gameEnded())
+        {
+	        for (Node child : node.children) {
+	        	child.level = level;
+	            int heuristic = Heuristic.calculateHeuristic(child, playerNumber);
+	            Pair pair = new Pair(child, heuristic + level);
+	            maxHeap.add(pair);
+	        }
+	        
+	        Node maxHeapNode = maxHeap.peek().getNode();
+	        Game beforePassivePlay = new Game(maxHeapNode.game);
+	        //play passive turn
+	        beforePassivePlay.deployTroops(game.getOpponentNumber(playerNumber), game.getGraph().findMinVertex(game.getOpponentNumber(playerNumber)));
+	        Node afterPassivePlay = new Node(beforePassivePlay);
+	        if(afterPassivePlay.game.gameEnded())
+	        {
+	        	break;
+	        }
+	        maxHeapNode.addChild(afterPassivePlay);
+	        node = maxHeapNode;
+	        node.expandNode(playerNumber);
         }
-
+        
         return maxHeap.poll().getNode().game;
+    }
+    
+    public ArrayList<Game> getSolutionPath()
+    {
+    	
     }
 
 }
