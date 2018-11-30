@@ -34,7 +34,7 @@ public class AStar extends AIAgent {
     @Override
     public Game performAction(Game game, int playerNumber) {
         if (this.enterOnce) {
-            this.index = 1;
+            this.index = playerNumber + 1;
             this.solutionPath = generateTree(new Game(game), playerNumber);
             enterOnce = false;
         }
@@ -98,11 +98,6 @@ public class AStar extends AIAgent {
             lastNode = lastNode.parent;
         }
 
-//        System.out.println("Inside: " + solutionPath.size());
-//
-//        for (Game game : solutionPath)
-//            game.getGraph().printGraph();
-//        System.out.println("Done inside");
         return solutionPath;
     }
 
