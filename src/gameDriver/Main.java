@@ -1,9 +1,5 @@
 package gameDriver;
 
-import gameModeling.Game;
-
-import java.util.Scanner;
-
 public class Main {
 
 //    private static void printGraph(Game game) {
@@ -41,13 +37,15 @@ public class Main {
         GameDriver driver = new GameDriver(PlayersTypes.A_STAR, PlayersTypes.PASSIVE);
         while (!driver.getGame().gameEnded()) {
             driver.playAITurn();
-//            driver.getGame().getGraph().printGraph();
+//          driver.getGame().getGraph().printGraph();
             driver.changeTurn();
             driver.initializeTurn(driver.getTurn());
             driver.playDeploymentTurn();
             driver.changeTurn();
             driver.initializeTurn(driver.getTurn());
-//            driver.getGame().getGraph().printGraph();
+           // System.out.println("PASSIVE TURN");
+          //driver.getGame().getGraph().printGraph();
+         // System.out.println("DD");
         }
     }
 
