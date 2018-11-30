@@ -137,6 +137,10 @@ public class Game {
         return (playerNumber + 1) % 2;
     }
 
+    public void initializeTurn(int playerNumber) {
+        this.addTroops(playerNumber);
+        this.setOwnedContinents(playerNumber);
+    }
 
     public boolean gameEnded() {
         return this.players[0].doesNotOwnVertices() || this.players[1].doesNotOwnVertices();

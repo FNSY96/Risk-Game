@@ -37,15 +37,17 @@ public class Main {
         GameDriver driver = new GameDriver(PlayersTypes.A_STAR, PlayersTypes.PASSIVE);
         while (!driver.getGame().gameEnded()) {
             driver.playAITurn();
-//          driver.getGame().getGraph().printGraph();
+
+            driver.getGame().getGraph().printGraph();
+
             driver.changeTurn();
             driver.initializeTurn(driver.getTurn());
             driver.playDeploymentTurn();
             driver.changeTurn();
             driver.initializeTurn(driver.getTurn());
-           // System.out.println("PASSIVE TURN");
-          //driver.getGame().getGraph().printGraph();
-         // System.out.println("DD");
+
+            System.out.println("PASSIVE TURN");
+            driver.getGame().getGraph().printGraph();
         }
     }
 

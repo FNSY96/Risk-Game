@@ -1,7 +1,6 @@
 package AIAgents;
 
 import gameModeling.Game;
-import nonAIAgents.Agent;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,6 +8,7 @@ import java.util.PriorityQueue;
 
 import artificialIntelligenceUtilities.Node;
 import artificialIntelligenceUtilities.Pair;
+import nonAIAgents.Passive;
 
 public class AStar extends AIAgent {
 
@@ -34,18 +34,21 @@ public class AStar extends AIAgent {
     @Override
     public Game performAction(Game game, int playerNumber) {
         if (this.enterOnce) {
-            this.index = playerNumber;
-            this.solutionPath = generateTree(game, playerNumber);
+            this.index = 1;
+            this.solutionPath = generateTree(new Game(game), playerNumber);
             enterOnce = false;
         }
 
-        System.out.println(index);
-        return solutionPath.get(index += 2);
+        Game updatedGame =  solutionPath.get(index);
+        index += 2;
+        return updatedGame;
     }
 
     private ArrayList<Game> generateTree(Game game, int playerNumber) {
         Node node = new Node(game);
         node.expandNode(playerNumber);
+        Passive passive = new Passive();
+
         PriorityQueue<Pair> maxHeap = new PriorityQueue<>(new Comparator<Pair>() {
             @Override
             public int compare(Pair o1, Pair o2) {
@@ -53,35 +56,37 @@ public class AStar extends AIAgent {
             }
         });
 
-        while (!node.game.gameEnded()) {
+        // MAYBE NEED TO BE CHANGED TO node.game.gameEnded();
+        while (true) {
             for (Node child : node.children) {
                 child.level = index;
                 int heuristic = Heuristic.calculateHeuristic(child, playerNumber);
                 Pair pair = new Pair(child, heuristic + index);
+                child.game.initializeTurn(playerNumber);
                 maxHeap.add(pair);
             }
 
-            Node maxHeapNode = maxHeap.poll().getNode();
-//            maxHeapNode.game.getGraph().printGraph();
-
-            Game beforePassivePlay = new Game(maxHeapNode.game);
-            if (beforePassivePlay.gameEnded()) {
-                node = maxHeapNode;
+            Node topOfHeapNode = maxHeap.poll().getNode();
+            Game topOfHeapGame = topOfHeapNode.game;
+            if (topOfHeapGame.gameEnded()) {
+                node = topOfHeapNode;
                 break;
             }
-            //play passive turn
-            beforePassivePlay.addTroops(beforePassivePlay.getOpponentNumber(playerNumber));
-            beforePassivePlay.deployTroops(beforePassivePlay.getOpponentNumber(playerNumber), beforePassivePlay.getGraph().findMinVertex(beforePassivePlay.getOpponentNumber(playerNumber)));
-            Node afterPassivePlay = new Node(beforePassivePlay);
 
-            maxHeapNode.addChild(afterPassivePlay);
-            System.out.println("iam child");
-//            maxHeapNode.children.get(0).game.getGraph().printGraph();
-            node = afterPassivePlay;
+
+            int opponentNumber = topOfHeapGame.getOpponentNumber(playerNumber);
+            Game toBeChildForTopOfHeapGame = new Game(topOfHeapGame);
+            toBeChildForTopOfHeapGame.initializeTurn(opponentNumber);
+            passive.agentDeploys(toBeChildForTopOfHeapGame, opponentNumber);
+
+            Node toBeChildForTopOfHeapNode = new Node(toBeChildForTopOfHeapGame);
+
+            topOfHeapNode.addChild(toBeChildForTopOfHeapNode);
+
+            node = toBeChildForTopOfHeapNode;
             node.expandNode(playerNumber);
         }
 
-//        System.out.println("Heap: " + maxHeap.size());
         return getSolutionPath(node);
     }
 
@@ -93,11 +98,11 @@ public class AStar extends AIAgent {
             lastNode = lastNode.parent;
         }
 
-        System.out.println("Inside: " + solutionPath.size());
-
-        for (Game game : solutionPath)
-            game.getGraph().printGraph();
-        System.out.println("Done inside");
+//        System.out.println("Inside: " + solutionPath.size());
+//
+//        for (Game game : solutionPath)
+//            game.getGraph().printGraph();
+//        System.out.println("Done inside");
         return solutionPath;
     }
 
