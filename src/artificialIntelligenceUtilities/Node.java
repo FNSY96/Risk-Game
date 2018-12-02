@@ -27,9 +27,9 @@ public class Node {
             Game deployChild = new Game(this.game);
             deployChild.deployTroops(playerNumber, currentPlayerVertices.get(i));
             boolean attacked = false;
-
             for (int j = 0; j < adjacentToCurrentVertex.size(); j++) {
                 boolean canAttack = deployChild.canAttack(currentPlayerVertices.get(i), adjacentToCurrentVertex.get(j));
+                int adjacentVertexOwner = deployChild.getGraph().getOwner(adjacentToCurrentVertex.get(j));
                 if (canAttack) {
                     Game childGame = new Game(deployChild);
                     childGame.attack(currentPlayerVertices.get(i), adjacentToCurrentVertex.get(j));
@@ -38,15 +38,16 @@ public class Node {
                     childNode.parent = this;
                     childNode.level = this.level + 1;
                     attacked = true;
+                }else if(playerNumber != adjacentVertexOwner){
+                    Game childGame = new Game(deployChild);
+                    Node childNode = new Node(childGame);
+                    this.children.add(childNode);
+                    childNode.parent = this;
+                    childNode.level = this.level + 1;
+                    attacked = true;
                 }
             }
 
-            if (!attacked) {
-                Node childNode = new Node(deployChild);
-                this.children.add(childNode);
-                childNode.parent = this;
-                childNode.level = this.level + 1;
-            }
         }
     }
 }

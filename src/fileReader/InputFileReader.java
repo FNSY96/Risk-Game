@@ -37,6 +37,7 @@ public class InputFileReader {
                 } else if (lineNum == (this.numOfEdges + 2)) {
                     getNumOfContinents(line);
                 } else if (lineNum > (this.numOfEdges + 2)) {
+                	System.out.println(line);
                     extractContinent(line, continents);
                 }
                 line = reader.readLine();

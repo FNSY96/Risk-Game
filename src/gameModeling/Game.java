@@ -83,8 +83,8 @@ public class Game {
     public boolean attack(int attackerVertex, int defenderVertex) {    //don't change the lines order in this function
         int remainingArmy = checkAttackingConditions(graph.getTroopsInVertex(attackerVertex), graph.getTroopsInVertex(defenderVertex));
         if (this.canAttack(attackerVertex, defenderVertex)) {
-            graph.setNumberOfTroopsInVertex(attackerVertex, remainingArmy - 1);
-            graph.setNumberOfTroopsInVertex(defenderVertex, 1);
+            graph.setNumberOfTroopsInVertex(attackerVertex,  1);
+            graph.setNumberOfTroopsInVertex(defenderVertex, remainingArmy - 1);
             this.players[graph.getOwner(attackerVertex)].incrementNumberOfOwnedVertices();
             this.players[graph.getOwner(defenderVertex)].decrementNumberOfOwnedVertices();
             this.alternateOwner(defenderVertex);
