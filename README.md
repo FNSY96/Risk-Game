@@ -26,4 +26,3 @@ The heuristic is based upon the real game, as we played more than about 30 onlin
 The heuristic is the addition of 
 - The sum of countries owned multiplied by a priority factor = 1
 - The sum of potential continent bonus multiplied by a priority factor = 2
-**This is multiplied by -1 to insert in a min heap.**
