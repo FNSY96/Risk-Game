@@ -60,27 +60,12 @@ public class GameDriver {
     }
 
     private boolean performAgentDeployment(Agent agent) {
-        if (agent instanceof Passive) {
-            return ((Passive) agent).agentDeploys(game, turnNumber);
-        } else if (agent instanceof Aggressive) {
-            return ((Aggressive) agent).agentDeploys(game, turnNumber);
-        } else if (agent instanceof Pacifist) {
-            return ((Pacifist) agent).agentDeploys(game, turnNumber);
-        }
-
-        return false;
+        return agent.agentDeploys(game, turnNumber);
     }
 
     private boolean performAgentAttack(Agent agent) {
-        if (agent instanceof Passive) {
-            return ((Passive) agent).agentAttacks(game, turnNumber);
-        } else if (agent instanceof Aggressive) {
-            return ((Aggressive) agent).agentAttacks(game, turnNumber);
-        } else if (agent instanceof Pacifist) {
-            return ((Pacifist) agent).agentAttacks(game, turnNumber);
-        }
 
-        return false;
+        return agent.agentAttacks(game, turnNumber);
     }
 
 
@@ -105,9 +90,7 @@ public class GameDriver {
 
             this.performAgentAttack(this.agent1);
         }
-
-//        this.game.getGraph().printGraph();
-
+        
         return game;
     }
 
@@ -137,9 +120,6 @@ public class GameDriver {
             this.performAIAgentAction(this.agent1);
         }
 
-
-//        this.game.getGraph().printGraph();
-
         return game;
     }
 
@@ -152,8 +132,6 @@ public class GameDriver {
         } else {
             ((Human) this.agent1).agentDeploys(game, turnNumber, vertexToDeployIn);
         }
-
-//        this.game.getGraph().printGraph();
 
         return game;
     }
@@ -169,10 +147,6 @@ public class GameDriver {
             ((Human) this.agent1).agentAttacks(game, turnNumber, attackerVertex, opponentVertex);
 
         }
-
-//        this.changeTurn();
-
-//        this.game.getGraph().printGraph();
 
         return game;
     }

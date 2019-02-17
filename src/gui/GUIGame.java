@@ -27,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.concurrent.TimeUnit;
 
 public class GUIGame extends JFrame {
 	static GUIGame frame;
